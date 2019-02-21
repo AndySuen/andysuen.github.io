@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en" itemscope itemtype="http://schema.org/Person">
+<head>
+            <meta charset="utf-8">
+        <!-- Site Meta Data -->
+        <title>树莓派局域网代理加速 Tetris® 99 for Nintendo Switch</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Andy">
+
+        <link rel="shortcut icon" href="">
+
+        <!-- schema.org -->
+        <meta itemprop="name" content="Andy's blog">
+        <meta itemprop="image" content="">
+        <meta itemprop="description" content="">
+
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+        <!-- Style Meta Data -->
+        <link rel="stylesheet" href="http://localhost:8000/theme/css/style.css" type="text/css"/>
+        <link rel="stylesheet" href="http://localhost:8000/theme/css/pygments.css" type="text/css"/>
+
+        <!-- Feed Meta Data -->
+
+        <!-- Twitter Feed -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="">
+        <meta name="twitter:image" content="">
+
+    <meta name="twitter:creator" content="">
+    <meta name="twitter:url" content="http://localhost:8000/blog/2019/raspberry-pi-as-proxy-server-in-lan">
+    <meta name="twitter:title" content="Andy's blog ~ 树莓派局域网代理加速 Tetris® 99 for Nintendo Switch">
+    <meta name="twitter:description" content="通过设置 privoxy over ss-local 作为局域网代理服务器，来加速 Switch 的网络连接">
+
+    <!-- Facebook Meta Data -->
+    <meta property="og:title" content="Andy's blog ~ 树莓派局域网代理加速 Tetris® 99 for Nintendo Switch"/>
+    <meta property="og:description" content="通过设置 privoxy over ss-local 作为局域网代理服务器，来加速 Switch 的网络连接"/>
+    <meta property="og:image" content=""/>
+</head>
+
+<body>
+<!-- Sidebar -->
+<aside>
+    <!--<center><a href="http://localhost:8000"><img id="avatar" src=""></a></center>-->
+    <h1>Andy's blog</h1>
+        <p>Web developer</p>
+    <br>
+
+
+    <nav class="nav">
+        <ul class="list-bare">
+
+                <li><a class="nav__link" href="/">Home</a></li>
+                <li><a class="nav__link" href="/archives.html">Archive</a></li>
+
+                <li><a class="nav__link" href="http://localhost:8000/pages/about.html">About</a></li>
+
+        </ul>
+    </nav>
+
+    <p class="social">
+                <a href="https://twitter.com/ibingfei" target="_blank"><img
+                        src="http://localhost:8000/theme/images/icons/twitter.png"></a>
+                <a href="https://github.com/andysuen" target="_blank"><img
+                        src="http://localhost:8000/theme/images/icons/github.png"></a>
+    </p>
+
+
+
+</aside>
+
+<!-- Content -->
+<article>
+    <section id="content">
+        <article>
+            <h1 class="post_title post_detail"><a href="http://localhost:8000/blog/2019/raspberry-pi-as-proxy-server-in-lan" rel="bookmark"
+                                                  title="Permalink to 树莓派局域网代理加速 Tetris® 99 for Nintendo Switch">树莓派局域网代理加速 Tetris® 99 for Nintendo Switch</a></h1>
+            <div class="entry-content blog-post">
+                <h2>1. Tetris® 99 的网络连接问题</h2>
+<p>任天堂在 2 月 13 日推出了一款大逃杀模式的俄罗斯方块游戏 <a href="https://www.nintendo.com/games/detail/tetris-99-switch">Tetris® 99 for Nintendo Switch</a>。作为一名 Tetris 老玩家，自然是不能错过。由于是在线对战游戏，对网络质量要求较高。对战过程中经常出现网络连接失败导致自动退出，气得很想摔 Switch。</p>
+<p>最简单的方法是<a href="https://twitter.com/ibingfei/status/1096354236047081472">修改 Switch 网络设置的 DNS</a>，但效果并不好，下载游戏很快，但对战更容易掉线。</p>
+<p>给路由器添加代理支持是个好办法，但我现在用的路由器不支持，安装插件后无法正常连接代理节点，只好另辟蹊径。</p>
+<p>Switch 的网络接入点里面有 HTTP 代理的设置项，而我的 MacBook 上有 <a href="https://nssurge.com/">Surge</a> 支持局域网访问，此法可行。但是这个方案需要 MacBook 一直保持在唤醒状态，休眠的话 Tetris 99 立刻掉线给你看，所以只能作为临时方案使用。</p>
+<p>正好抽屉里还有个 24 小时运行的树莓派，做局域网 HTTP 代理服务器最合适不过了。shadowsocks 是最流行的代理方式，但它的官方客户端只支持 socks5 协议的流量，因此我们还需要一个将 HTTP 流量转换为 socks5 流量的工具，<a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)">privoxy</a> 可以做到。</p>
+<h2>2. 给树莓派安装 shadowsocks</h2>
+<p>首先，安装 <a href="https://github.com/shadowsocks/shadowsocks-libev">shadowsocks-libev</a>：</p>
+<div class="highlight"><pre><span></span>$ sudo apt-get update
+$ sudo apt-get install shadowsocks-libev
+</pre></div>
+
+
+<p>配置节点信息：</p>
+<div class="highlight"><pre><span></span>$ sudo vim /etc/shadowsocks-libev/config.json
+</pre></div>
+
+
+<p>文件格式如下：</p>
+<div class="highlight"><pre><span></span>{
+    &quot;server&quot;:&quot;REMOTE-SERVER-IP-OR-DOMAIN&quot;,
+    &quot;server_port&quot;:&quot;REMOTE-PORT&quot;,
+    &quot;local_address&quot;:&quot;127.0.0.1&quot;,
+    &quot;local_port&quot;:1080,
+    &quot;password&quot;:&quot;YOUR-PASSWORD&quot;,
+    &quot;method&quot;:&quot;YOUR-METHOD&quot;
+}
+</pre></div>
+
+
+<p>这时运行 <code>ss-local</code> 命令，你就可以在的前台看到节点连接情况。但当你关闭 SSH 会话时，这个进程也会停止，因此需要把它设为服务运行。</p>
+<h3>设置 <code>ss-local</code> 服务</h3>
+<p>编辑 <code>ss-local</code> 服务的配置文件 <code>/lib/systemd/system/ss-local.service</code>：</p>
+<div class="highlight"><pre><span></span>$ sudo vim /lib/systemd/system/ss-local.service
+</pre></div>
+
+
+<p>文件内容如下（格式参考了 <code>/lib/systemd/system/shadowsocks-libev.service</code>）：</p>
+<div class="highlight"><pre><span></span><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Shadowsocks-libev Default Client Service</span>
+<span class="na">Documentation</span><span class="o">=</span><span class="s">man:ss-local</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+
+<span class="k">[Service]</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+<span class="na">EnvironmentFile</span><span class="o">=</span><span class="s">/etc/default/shadowsocks-libev</span>
+<span class="na">User</span><span class="o">=</span><span class="s">nobody</span>
+<span class="na">Group</span><span class="o">=</span><span class="s">nogroup</span>
+<span class="na">LimitNOFILE</span><span class="o">=</span><span class="s">32768</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/ss-local -c /etc/shadowsocks-libev/config.json</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</pre></div>
+
+
+<p>启用 <code>ss-local.service</code>：</p>
+<div class="highlight"><pre><span></span>$ sudo systemctl start ss-local.service  <span class="c1"># 启动服务</span>
+$ sudo systemctl <span class="nb">enable</span> ss-local.service <span class="c1"># 设置开机自启动</span>
+</pre></div>
+
+
+<p>现在 <code>ss-local.service</code> 服务已经成功运行了，测试一下：</p>
+<div class="highlight"><pre><span></span>$ curl --socks5 localhost:1080 ipconfig.io
+</pre></div>
+
+
+<p>你应该看到输出了远程 ss 代理节点的 IP 地址。</p>
+<h2>3. 安装 privoxy 转发 HTTP 流量</h2>
+<p><a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)">privoxy</a> 是一个 HTTP 协议过滤代理软件，安装：</p>
+<div class="highlight"><pre><span></span>$ sudo apt-get install privoxy
+</pre></div>
+
+
+<p>修改配置文件 <code>/etc/privoxy/config</code>：</p>
+<div class="highlight"><pre><span></span>$ sudo vim /etc/privoxy/config
+</pre></div>
+
+
+<p>在文件底部添加：</p>
+<div class="highlight"><pre><span></span>forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号
+listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
+</pre></div>
+
+
+<p><code>privoxy.service</code> 服务在安装时已经启用，可以通过 <code>systemctl status privoxy.service</code> 来确认，现在重启该服务：</p>
+<div class="highlight"><pre><span></span>$ sudo systemctl restart privoxy.service
+</pre></div>
+
+
+<p>现在 <code>privoxy.service</code> 服务已经成功运行了，测试一下：</p>
+<div class="highlight"><pre><span></span>$ curl -x, --proxy localhost:8010 ipconfig.io
+</pre></div>
+
+
+<p>你应该看到输出了远程 ss 代理节点的 IP 地址。</p>
+<h2>4. 最后一步</h2>
+<p>树莓派的代理服务已经成功运行，现在还需要在路由器的设置里面把树莓派的 IP 固定下来，以免每次树莓派切换 IP 还需要更改相应的 Switch 设置。</p>
+<p>如果你设置的静态 IP 和当前不一致，需要重启一下树莓派的网络服务：</p>
+<div class="highlight"><pre><span></span>$ sudo ifconfig wlan0 down<span class="p">;</span> sleep <span class="m">10</span><span class="p">;</span> sudo ifconfig wlan0 up
+</pre></div>
+
+
+<p>然后在 Switch 的网络接入点配置里添加代理的 IP （树莓派的静态 IP）和端口号 8010，保存并重新连接此接入点，提示连接成功，即可开始体验 Tetris® 99 了。</p>
+<p>彩蛋：</p>
+<p><img alt="Tetris® 99 screenshot" src="https://pbs.twimg.com/media/DznlORWU8AELB0h.jpg"></p>
+            </div>
+            <div class="post_list">
+                <span>By </span>
+                <a href="http://localhost:8000/author/andy.html">@Andy</a>
+                <span> in </span>
+                <span class="post_category"><a href="http://localhost:8000/category/linux.html" rel="bookmark"
+                                               title="Permalink to linux">[ linux ]</a></span>
+                <span class="post_date">Sun 17 February 2019</span>
+                <div><span>Tags: </span>
+                            <span><a href="http://localhost:8000/tag/linux.html">#linux </a></span>
+                            <span><a href="http://localhost:8000/tag/raspberrypi.html">#raspberrypi </a></span>
+                </div>
+
+                <div class="entry-social">
+                    <span>Share: </span>
+                    <span class="twitter icon"><a target="_blank" rel="nofollow"
+                                             onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;"
+                                             title="Twitter"
+                                             href="https://twitter.com/share?url=http://localhost:8000/blog/2019/raspberry-pi-as-proxy-server-in-lan&text=树莓派局域网代理加速 Tetris® 99 for Nintendo Switch&via="><img
+                            src="http://localhost:8000/theme/images/icons/twitter-s.png"></a></span>
+
+                    <span class="facebook icon"><a target="_blank" title="Facebook" rel="nofollow"
+                                              onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;"
+                                              href="https://www.facebook.com/sharer.php?u=http://localhost:8000/blog/2019/raspberry-pi-as-proxy-server-in-lan&t=树莓派局域网代理加速 Tetris® 99 for Nintendo Switch"><img
+                            src="http://localhost:8000/theme/images/icons/facebook-s.png"></a></span>
+
+                    <span class="linkedin icon"><a target="_blank" title="Linkedin"
+                       href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/blog/2019/raspberry-pi-as-proxy-server-in-lan&title=树莓派局域网代理加速 Tetris® 99 for Nintendo Switch"
+                       rel="nofollow"
+                       onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img
+                            src="http://localhost:8000/theme/images/icons/linkedin-s.png"></a></span>
+
+                    <span class="mail icon"><a
+                            href="mailto:?subject=树莓派局域网代理加速 Tetris® 99 for Nintendo Switch&amp;body=Viens découvrir un article à propos de [树莓派局域网代理加速 Tetris® 99 for Nintendo Switch] sur le site de Andy. http://localhost:8000/blog/2019/raspberry-pi-as-proxy-server-in-lan"
+                            title="Share by Email" target="_blank"><img
+                            src="http://localhost:8000/theme/images/icons/mail-s.png"></a></span>
+                </div>
+            </div>
+        </article>
+    </section>
+</article>
+
+<!-- Footer -->
+    <footer>
+        <p>
+            Powered by <a target="_blank" href="https://blog.getpelican.com/">Pelican</a><!-- ,
+            which takes great advantage of <a href="http://python.org">Python</a> -->.
+            Theme <a target="_blank" href="https://github.com/parbhat/pelican-blue">Pelican-Blue</a><!--  by <a
+                href="https://parbhatpuri.com/">@parbhat</a> -->.
+        </p>
+    </footer>
+
+
+</body>
+</html>
