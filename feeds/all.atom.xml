@@ -104,7 +104,174 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 
 &lt;p&gt;然后在 Switch 的网络接入点配置里添加代理的 IP （树莓派的静态 IP）和端口号 8010，保存并重新连接此接入点，提示连接成功，即可开始体验 Tetris® 99 了。&lt;/p&gt;
 &lt;p&gt;彩蛋：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Tetris® 99 screenshot" src="https://pbs.twimg.com/media/DznlORWU8AELB0h.jpg"&gt;&lt;/p&gt;</content><category term="linux"></category><category term="raspberrypi"></category></entry><entry><title>树莓派3零附件配置 Wi-Fi 和 SSH</title><link href="https://bingfei.me/blog/2018/raspberry-pi-3-setup" rel="alternate"></link><published>2018-01-03T17:30:00+08:00</published><updated>2018-01-03T17:30:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2018-01-03:/blog/2018/raspberry-pi-3-setup</id><summary type="html">&lt;p&gt;在没有外接键盘和显示器的条件下，配置树莓派通过 Wi-Fi 进行 SSH 登录&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://raspberrypi.org/"&gt;树莓派&lt;/a&gt;是一款基于 Linux 的单片机，由于体积小巧，价格低廉，可以用来学习 Linux 系统，编写并运行小型应用，做&lt;a href="https://kodi.tv/"&gt;家庭影音服务中心&lt;/a&gt;等。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Tetris® 99 screenshot" src="https://pbs.twimg.com/media/DznlORWU8AELB0h.jpg"&gt;&lt;/p&gt;</content><category term="linux"></category><category term="raspberrypi"></category></entry><entry><title>IEEE 754 与 9999999999999999.0 - 9999999999999998.0 == 2.0</title><link href="https://bingfei.me/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0" rel="alternate"></link><published>2019-01-06T22:25:00+08:00</published><updated>2019-01-06T22:25:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2019-01-06:/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0</id><summary type="html">&lt;p&gt;为什么大多数编程语言计算 9999999999999999.0 - 9999999999999998.0 的结果是 2.0？因为 &lt;code&gt;IEEE 754&lt;/code&gt;。&lt;/p&gt;</summary><content type="html">&lt;h2&gt;1. 计算机算错了吗？&lt;/h2&gt;
+&lt;p&gt;今天在 Twitter 上看到这样一条 &lt;a href="https://twitter.com/nixcraft/status/1081806050708283397"&gt;tweet&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;It’s a simple question:&lt;/p&gt;
+&lt;p&gt;9999999999999999.0 - 9999999999999998.0&lt;/p&gt;
+&lt;p&gt;Does your favorite language give the right answer? &lt;a href="http://geocar.sdf1.org/numbers.html"&gt;http://geocar.sdf1.org/numbers.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当然是等于 1 嘛～&lt;/p&gt;
+&lt;p&gt;然而大多数编程语言都没有得出正确答案——它们得出的结果是 &lt;code&gt;2.0&lt;/code&gt;：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="right"&gt;language&lt;/th&gt;
+&lt;th align="left"&gt;output&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;C:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;code&gt;main(){printf("%lf\n",(double)9999999999999999.0-9999999999999998.0);}&lt;/code&gt; &lt;br&gt;&lt;strong&gt;2.000000&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;Java:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;code&gt;public class Foo{public static void main(String args[]){System.out.println(9999999999999999.0-9999999999999998.0);}}&lt;/code&gt; &lt;br&gt;&lt;strong&gt;2.0&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;Python:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; 9999999999999999.0 - 9999999999999998.0&lt;/code&gt; &lt;br&gt;&lt;strong&gt;2.0&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;Javascript:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;code&gt;9999999999999999.0 - 9999999999999998.0&lt;/code&gt; &lt;br&gt;&lt;strong&gt;2.0&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;GoLang:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;code&gt;var a = 9999999999999999.0; var b = 9999999999999998.0; fmt.Printf("%f\n", a-b)&lt;/code&gt; &lt;br&gt;&lt;strong&gt;2.000000&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;Ruby:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;code&gt;irb(main):001:0&amp;gt; 9999999999999999.0 - 9999999999999998.0&lt;/code&gt; &lt;br&gt;&lt;strong&gt;2.0&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;R:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;code&gt;&amp;gt; 9999999999999999.0-9999999999999998.0 [1]&lt;/code&gt; &lt;br&gt;&lt;strong&gt;2&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;WHY?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;因为 &lt;code&gt;IEEE 754&lt;/code&gt;。&lt;/p&gt;
+&lt;h2&gt;2. IEEE 754&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The &lt;strong&gt;IEEE Standard for Floating-Point Arithmetic&lt;/strong&gt; (&lt;strong&gt;IEEE 754&lt;/strong&gt;) is a &lt;a href="https://en.wikipedia.org/wiki/Technical_standard"&gt;technical standard&lt;/a&gt; for &lt;a href="https://en.wikipedia.org/wiki/Floating-point_arithmetic"&gt;floating-point arithmetic&lt;/a&gt; established in 1985 by the &lt;a href="https://en.wikipedia.org/wiki/Institute_of_Electrical_and_Electronics_Engineers"&gt;Institute of Electrical and Electronics Engineers&lt;/a&gt; (IEEE). via &lt;a href="https://en.wikipedia.org/wiki/IEEE_754"&gt;en.wikipedia.org/wiki/IEEE_754&lt;/a&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;1985 年，电气电子工程师协会（&lt;a href="https://zh.wikipedia.org/zh-cn/电气电子工程师协会"&gt;IEEE&lt;/a&gt;）制定了浮点数算数标准——IEEE 754，为许多CPU与浮点运算器所采用。IEEE 754 规定了四种表示浮点数值的方式：单精度（32位）、双精度（64位）、延伸单精度（43位以上，很少使用）与延伸双精度（79位以上，通常以80位实现）。现代的编程语言通常采用双精度（64位）进行浮点数算数运算。&lt;/p&gt;
+&lt;h3&gt;2.1 浮点数实现&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://zh.wikipedia.org/wiki/IEEE_754#浮點數剖析"&gt;浮点数在计算机内部以二进制数表示&lt;/a&gt;，其结构如下：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Value = sign × exponent × fraction&lt;/code&gt; （&lt;code&gt;值 = 符号位 * 指数偏移值 * 分数值&lt;/code&gt;） &lt;/p&gt;
+&lt;p&gt;其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;符号位：正为 0，负为 1。&lt;/li&gt;
+&lt;li&gt;指数偏移值：即浮点数表示法中指数域的编码值，等于指数的实际值加上某个固定的值，IEEE 754 标准规定该固定值为 &lt;code&gt;2^(e - 1) - 1​&lt;/code&gt;，其中 e 为指数偏移值部分的长度。&lt;/li&gt;
+&lt;li&gt;编码范围为 &lt;code&gt;0 &amp;lt;= exponent &amp;lt;= 2^e - 1&lt;/code&gt;，实际取值范围为 &lt;code&gt;-2^(e - 1) - 2 &amp;lt;= exponent &amp;lt;=  2^(e - 1) - 1&lt;/code&gt;​。​ &lt;code&gt;-2^(e - 1) - 1&lt;/code&gt; ​和 &lt;code&gt;2^(e - 1)&lt;/code&gt; 被用作特殊处理，见下方「非规约形式的浮点数」和「特殊值」。&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;分数值：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;规约形式的浮点数&lt;/strong&gt;：如果浮点数中指数部分的编码值在 &lt;code&gt;0 &amp;lt; exponent &amp;lt;= 2^{e}-2&lt;/code&gt; 之间，且在科学表示法的表示方式下，分数 (fraction) 部分最高有效位（即整数位）是 1，那么这个浮点数将被称为规约形式的浮点数。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;根据定义，规约形式的浮点数中，分数部分第一位必为整数 1，故此 1 可以省去，只留小数部分，由此可以多存一位有效数字。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;非规约形式的浮点数&lt;/strong&gt;：如果浮点数的指数部分的编码值是 0，分数部分非零，那么这个浮点数将被称为非规约形式的浮点数。一般是某个数字&lt;strong&gt;相当&lt;/strong&gt;接近零时才会使用非规约型式来表示。 此时，0 表示 &lt;code&gt;-2^(e - 1) - 2&lt;/code&gt; 而不是 &lt;code&gt;-2^(e - 1) - 1&lt;/code&gt;，以此来解决&lt;strong&gt;突然式下溢出&lt;/strong&gt;（abrupt underflow）问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在使用 32 位存储的浮点数中，符号位占 1 位，指数偏移值占 8 位，分数值占 23 位。&lt;/p&gt;
+&lt;p&gt;在使用 64 位存储的浮点数中，符号位占 1 位，指数偏移值占 11 位，分数值占 52 位。（如图所示：）&lt;/p&gt;
+&lt;p&gt;&lt;img alt="IEEE 754 双精度浮点数" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/IEEE_754_Double_Floating_Point_Format.svg"&gt;&lt;/p&gt;
+&lt;h4&gt;2.1.1 IEEE 754 规定了三个特殊值：&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;如果&lt;em&gt;指数&lt;/em&gt;是 0 并且尾数的&lt;em&gt;小数部分&lt;/em&gt;是 0，这个数是 ±0（和符号位相关）&lt;/li&gt;
+&lt;li&gt;如果&lt;em&gt;指数&lt;/em&gt; = &lt;code&gt;2^(e - 1)&lt;/code&gt; 并且尾数的&lt;em&gt;小数部分&lt;/em&gt;是 0，这个数是 ±&lt;a href="https://zh.wikipedia.org/wiki/%E6%97%A0%E7%A9%B7%E5%A4%A7"&gt;∞&lt;/a&gt;（同样和符号位相关）&lt;/li&gt;
+&lt;li&gt;如果&lt;em&gt;指数&lt;/em&gt; = &lt;code&gt;2^(e - 1)&lt;/code&gt; 并且尾数的&lt;em&gt;小数部分&lt;/em&gt;非 0，这个数表示为&lt;a href="https://zh.wikipedia.org/wiki/NaN"&gt;不是一个数（NaN）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;2.2 双精度有多精确？&lt;/h3&gt;
+&lt;p&gt;双精度的&lt;strong&gt;分数部分共有 52 位&lt;/strong&gt;，加上规约形式前面省略的 1 位，因此共有 53 位二进制精度。&lt;/p&gt;
+&lt;p&gt;能表示的最大数值（在不考虑指数部分的情况下）为：&lt;code&gt;2^53 - 1 = 9007199254740991&lt;/code&gt; （十进制，共 16 位有效数字）。&lt;/p&gt;
+&lt;p&gt;超过精度的数值会被舍入，IEEE 754 默认的舍入规则为&lt;strong&gt;就近舍入&lt;/strong&gt;，即舍入到最近的偶数——二进制下末位为 0 的数值。&lt;/p&gt;
+&lt;h3&gt;2.3 双精度浮点数表示 &lt;code&gt;9999999999999999.0&lt;/code&gt; 和 &lt;code&gt;9999999999999998.0&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;考察 &lt;code&gt;9999999999999999&lt;/code&gt; 和 &lt;code&gt;9999999999999998&lt;/code&gt; 的二进制形式如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9999999999999999&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nb"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9999999999999998&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;0b100011100001101111001001101111110000001111111111111111&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# 二进制共 54 位&lt;/span&gt;
+     &lt;span class="s1"&gt;&amp;#39;0b100011100001101111001001101111110000001111111111111110&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# 同上&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;二进制共 54 位，规约后省略首位，仍有 53 位&lt;/p&gt;
+&lt;h4&gt;2.3.1 &lt;code&gt;9999999999999999.0&lt;/code&gt;:&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;1. 9999999999999999 用二进制表示为：
+              100011100001101111001001101111110000001111111111111111
+              └─────────────────────────┬──────────────────────────┘
+                                     54 bit
+2. 9999999999999999.0 科学表示法表示为：
+      2^53 × 1.00011100001101111001001101111110000001111111111111111
+               └───────────────────────┬──────────────────────────┘│
+                                    52 bit             超出 1 bit，舍去最后一位 1 并进一位
+3. 9999999999999999.0 用双精度浮点数表示为：
+   0100001101000001110000110111100100110111111000001000000000000000
+   │└────┬────┘└────────────────────────┬─────────────────────────┘
+   sign exp                          52 bit
+   等于 10000000000000000，即 1e+16
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;2.3.2 &lt;code&gt;9999999999999998.0&lt;/code&gt;:&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;1. 9999999999999998 用二进制表示为：
+              100011100001101111001001101111110000001111111111111110
+              └─────────────────────────┬──────────────────────────┘
+                                     54 bit
+2. 9999999999999998.0 科学表示法表示为：
+      2^53 × 1.00011100001101111001001101111110000001111111111111110
+               └───────────────────────┬──────────────────────────┘│
+                                    52 bit              超出 1 bit 舍入：舍去最后一位 0
+3. 9999999999999998.0 用双精度浮点数表示为：
+   0100001101000001110000110111100100110111111000000111111111111111
+   │└────┬────┘└────────────────────────┬─────────────────────────┘
+   sign exp                          52 bit
+   等于 9999999999999998，即 9.999999999999998e+15
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;2.4 双精度浮点数表示 &lt;code&gt;9999999999999999.0 - 9999999999999998.0&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;因此，在双精度浮点数表示下，&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   9999999999999999.0 - 9999999999999998.0
+= 10000000000000000.0 - 9999999999999998.0
+= 2.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;也就可以理解了。&lt;/p&gt;
+&lt;h2&gt;最后&lt;/h2&gt;
+&lt;p&gt;二进制可以精确地表示绝大部分常见的 10 进制整数，但无法精确地表示大部分常见的 10 进制小数（仅能精确表示&lt;a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%BF%9B%E5%88%86%E6%95%B0"&gt;二进分数&lt;/a&gt;  &lt;code&gt;m/2^n&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;比如 &lt;code&gt;0.1 + 0.2 == 0.30000000000000004&lt;/code&gt; 也是困扰无数计算机新手的经典问题。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;双精度浮点数表示&lt;/th&gt;
+&lt;th&gt;实际值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0.1&lt;/td&gt;
+&lt;td&gt;0x3FB999999999999A&lt;/td&gt;
+&lt;td&gt;0.100000000000000005551115123126&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;0.2&lt;/td&gt;
+&lt;td&gt;0x3FC999999999999A&lt;/td&gt;
+&lt;td&gt;0.200000000000000011102230246252&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;0.3&lt;/td&gt;
+&lt;td&gt;0x3FD3333333333333&lt;/td&gt;
+&lt;td&gt;0.299999999999999988897769753748&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Well, nobody's perfect. - &lt;em&gt;&lt;a href="https://movie.douban.com/subject/1292574/"&gt;Some Like It Hot (1959)&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</content><category term="computer"></category></entry><entry><title>树莓派3零附件配置 Wi-Fi 和 SSH</title><link href="https://bingfei.me/blog/2018/raspberry-pi-3-setup" rel="alternate"></link><published>2018-01-03T17:30:00+08:00</published><updated>2018-01-03T17:30:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2018-01-03:/blog/2018/raspberry-pi-3-setup</id><summary type="html">&lt;p&gt;在没有外接键盘和显示器的条件下，配置树莓派通过 Wi-Fi 进行 SSH 登录&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://raspberrypi.org/"&gt;树莓派&lt;/a&gt;是一款基于 Linux 的单片机，由于体积小巧，价格低廉，可以用来学习 Linux 系统，编写并运行小型应用，做&lt;a href="https://kodi.tv/"&gt;家庭影音服务中心&lt;/a&gt;等。&lt;/p&gt;
 &lt;p&gt;几天前朋友送给我一块&lt;a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/"&gt;树莓派 3B&lt;/a&gt;，拥有四核 1.2GHz 64 位 ARM CPU，1GB LPDDR2 内存，四个 USB 2.0 接口，一个 MicroSD 卡槽，一个百兆以太网接口，支持 Wi-Fi 802.11n 和 蓝牙 4.1。&lt;/p&gt;
 &lt;h2&gt;1. 安装系统&lt;/h2&gt;
 &lt;p&gt;树莓派官方的操作系统 &lt;a href="https://www.raspberrypi.org/downloads/raspbian/"&gt;Raspbian&lt;/a&gt; 有三个版本：&lt;/p&gt;
