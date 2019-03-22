@@ -83,7 +83,7 @@
             <div class="entry-content blog-post">
                 <p><a href="https://raspberrypi.org/">树莓派</a>是一款基于 Linux 的单片机，由于体积小巧，价格低廉，可以用来学习 Linux 系统，编写并运行小型应用，做<a href="https://kodi.tv/">家庭影音服务中心</a>等。</p>
 <p>几天前朋友送给我一块<a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/">树莓派 3B</a>，拥有四核 1.2GHz 64 位 ARM CPU，1GB LPDDR2 内存，四个 USB 2.0 接口，一个 MicroSD 卡槽，一个百兆以太网接口，支持 Wi-Fi 802.11n 和 蓝牙 4.1。</p>
-<h2>1. 安装系统</h2>
+<h2 id="1">1. 安装系统<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
 <p>树莓派官方的操作系统 <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian</a> 有三个版本：</p>
 <ul>
 <li>Raspbian with desktop and recommended software</li>
@@ -91,10 +91,10 @@
 <li>Raspbian Lite</li>
 </ul>
 <p>我安装的是非桌面版本 Raspbian Lite，通过烧录工具 <a href="https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/">ApplePi-Baker</a> for macOS 把下载好的镜像文件<a href="https://sspai.com/post/38542">写入 SD 卡</a>。</p>
-<h2>2. 启用 SSH</h2>
+<h2 id="2-ssh">2. 启用 SSH<a class="headerlink" href="#2-ssh" title="Permanent link">&para;</a></h2>
 <p>几乎所有的教程都会要求使用外接键盘和显示器连接树莓派进行接下来的操作。如果没有这些附件怎么办呢？办法是有的。</p>
 <p>SSH 默认状态下是关闭的，启用的方法是在 Raspbian 系统目录 <code>/mnt/sdc1</code> 下创建一个名为 <code>ssh</code> 的空文件。</p>
-<h2>3. 启用自动连接 Wi-Fi</h2>
+<h2 id="3-wi-fi">3. 启用自动连接 Wi-Fi<a class="headerlink" href="#3-wi-fi" title="Permanent link">&para;</a></h2>
 <p>在启用 SSH 的情况下，可以通过网络连接树莓派，比如网线或者 Wi-Fi。如果你恰好和我一样没有网线，或者只是讨厌给树莓派多插一条线的话，还可以通过 Wi-Fi 进行连接。</p>
 <p>Wi-Fi 默认状态也是关闭的，幸运的是我找到了这个<a href="https://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address/37921#37921">帖子</a>，里面介绍了在烧录系统后直接配置 Wi-Fi 的方法。</p>
 <p>Raspbian 在启动时会检查 <code>/boot</code> 目录下的 <code>wpa_supplicant.conf</code> 文件并把它移动到 <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> （如果文件已存在则会被覆盖），可以在这里进行 Wi-Fi 连接的参数配置。</p>
@@ -110,7 +110,7 @@ network={
 
 
 <p>然后，替换 <code>SSID</code> 和 <code>PASSWORD</code> 为你希望连接的 Wi-Fi 名称和密码。</p>
-<h2>4. 运行树莓派并通过 Wi-Fi 进行 SSH 登录</h2>
+<h2 id="4-wi-fi-ssh">4. 运行树莓派并通过 Wi-Fi 进行 SSH 登录<a class="headerlink" href="#4-wi-fi-ssh" title="Permanent link">&para;</a></h2>
 <p>现在你可以把树莓派插卡通电放到角落里了。在终端中输入 <code>ssh pi@raspberrypi.local</code> 进行登录，使用 <code>raspberry</code> 作为初始密码。现在你应该已经登入了树莓派，可以按照自己的想法使用它了。</p>
 <p>希望这篇文章对你有所帮助。</p>
             </div>

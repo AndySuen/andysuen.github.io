@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Andy's blog</title><link href="https://bingfei.me/" rel="alternate"></link><link href="https://bingfei.me/feeds/all.atom.xml" rel="self"></link><id>https://bingfei.me/</id><updated>2019-02-17T17:30:00+08:00</updated><entry><title>树莓派局域网代理加速 Tetris® 99 for Nintendo Switch</title><link href="https://bingfei.me/blog/2019/raspberry-pi-as-proxy-server-in-lan" rel="alternate"></link><published>2019-02-17T17:30:00+08:00</published><updated>2019-02-17T17:30:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2019-02-17:/blog/2019/raspberry-pi-as-proxy-server-in-lan</id><summary type="html">&lt;p&gt;通过设置 privoxy over ss-local 作为局域网代理服务器，来加速 Switch 的网络连接&lt;/p&gt;</summary><content type="html">&lt;h2&gt;1. Tetris® 99 的网络连接问题&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Andy's blog</title><link href="https://bingfei.me/" rel="alternate"></link><link href="https://bingfei.me/feeds/all.atom.xml" rel="self"></link><id>https://bingfei.me/</id><updated>2019-02-17T17:30:00+08:00</updated><entry><title>树莓派局域网代理加速 Tetris® 99 for Nintendo Switch</title><link href="https://bingfei.me/blog/2019/raspberry-pi-as-proxy-server-in-lan" rel="alternate"></link><published>2019-02-17T17:30:00+08:00</published><updated>2019-02-17T17:30:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2019-02-17:/blog/2019/raspberry-pi-as-proxy-server-in-lan</id><summary type="html">&lt;p&gt;通过设置 privoxy over ss-local 作为局域网代理服务器，来加速 Switch 的网络连接&lt;/p&gt;</summary><content type="html">&lt;h2 id="1-tetris-99"&gt;1. Tetris® 99 的网络连接问题&lt;a class="headerlink" href="#1-tetris-99" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;任天堂在 2 月 13 日推出了一款大逃杀模式的俄罗斯方块游戏 &lt;a href="https://www.nintendo.com/games/detail/tetris-99-switch"&gt;Tetris® 99 for Nintendo Switch&lt;/a&gt;。作为一名 Tetris 老玩家，自然是不能错过。由于是在线对战游戏，对网络质量要求较高。对战过程中经常出现网络连接失败导致自动退出，气得很想摔 Switch。&lt;/p&gt;
 &lt;p&gt;最简单的方法是&lt;a href="https://twitter.com/ibingfei/status/1096354236047081472"&gt;修改 Switch 网络设置的 DNS&lt;/a&gt;，但效果并不好，下载游戏很快，但对战更容易掉线。&lt;/p&gt;
 &lt;p&gt;给路由器添加代理支持是个好办法，但我现在用的路由器不支持，安装插件后无法正常连接代理节点，只好另辟蹊径。&lt;/p&gt;
 &lt;p&gt;Switch 的网络接入点里面有 HTTP 代理的设置项，而我的 MacBook 上有 &lt;a href="https://nssurge.com/"&gt;Surge&lt;/a&gt; 支持局域网访问，此法可行。但是这个方案需要 MacBook 一直保持在唤醒状态，休眠的话 Tetris 99 立刻掉线给你看，所以只能作为临时方案使用。&lt;/p&gt;
 &lt;p&gt;正好抽屉里还有个 24 小时运行的树莓派，做局域网 HTTP 代理服务器最合适不过了。shadowsocks 是最流行的代理方式，但它的官方客户端只支持 socks5 协议的流量，因此我们还需要一个将 HTTP 流量转换为 socks5 流量的工具，&lt;a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)"&gt;privoxy&lt;/a&gt; 可以做到。&lt;/p&gt;
-&lt;h2&gt;2. 给树莓派安装 shadowsocks&lt;/h2&gt;
+&lt;h2 id="2-shadowsocks"&gt;2. 给树莓派安装 shadowsocks&lt;a class="headerlink" href="#2-shadowsocks" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;首先，安装 &lt;a href="https://github.com/shadowsocks/shadowsocks-libev"&gt;shadowsocks-libev&lt;/a&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get update
 $ sudo apt-get install shadowsocks-libev
@@ -30,7 +30,7 @@ $ sudo apt-get install shadowsocks-libev
 
 
 &lt;p&gt;这时运行 &lt;code&gt;ss-local&lt;/code&gt; 命令，你就可以在的前台看到节点连接情况。但当你关闭 SSH 会话时，这个进程也会停止，因此需要把它设为服务运行。&lt;/p&gt;
-&lt;h3&gt;设置 &lt;code&gt;ss-local&lt;/code&gt; 服务&lt;/h3&gt;
+&lt;h3 id="ss-local"&gt;设置 &lt;code&gt;ss-local&lt;/code&gt; 服务&lt;a class="headerlink" href="#ss-local" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;编辑 &lt;code&gt;ss-local&lt;/code&gt; 服务的配置文件 &lt;code&gt;/lib/systemd/system/ss-local.service&lt;/code&gt;：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo vim /lib/systemd/system/ss-local.service
 &lt;/pre&gt;&lt;/div&gt;
@@ -67,7 +67,7 @@ $ sudo systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; ss-local.service &lt
 
 
 &lt;p&gt;你应该看到输出了远程 ss 代理节点的 IP 地址。&lt;/p&gt;
-&lt;h2&gt;3. 安装 privoxy 转发 HTTP 流量&lt;/h2&gt;
+&lt;h2 id="3-privoxy-http"&gt;3. 安装 privoxy 转发 HTTP 流量&lt;a class="headerlink" href="#3-privoxy-http" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)"&gt;privoxy&lt;/a&gt; 是一个 HTTP 协议过滤代理软件，安装：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get install privoxy
 &lt;/pre&gt;&lt;/div&gt;
@@ -95,7 +95,7 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 
 
 &lt;p&gt;你应该看到输出了远程 ss 代理节点的 IP 地址。&lt;/p&gt;
-&lt;h2&gt;4. 最后一步&lt;/h2&gt;
+&lt;h2 id="4"&gt;4. 最后一步&lt;a class="headerlink" href="#4" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;树莓派的代理服务已经成功运行，现在还需要在路由器的设置里面把树莓派的 IP 固定下来，以免每次树莓派切换 IP 还需要更改相应的 Switch 设置。&lt;/p&gt;
 &lt;p&gt;如果你设置的静态 IP 和当前不一致，需要重启一下树莓派的网络服务：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo ifconfig wlan0 down&lt;span class="p"&gt;;&lt;/span&gt; sleep &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; sudo ifconfig wlan0 up
@@ -104,7 +104,7 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 
 &lt;p&gt;然后在 Switch 的网络接入点配置里添加代理的 IP （树莓派的静态 IP）和端口号 8010，保存并重新连接此接入点，提示连接成功，即可开始体验 Tetris® 99 了。&lt;/p&gt;
 &lt;p&gt;彩蛋：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Tetris® 99 screenshot" src="https://pbs.twimg.com/media/DznlORWU8AELB0h.jpg"&gt;&lt;/p&gt;</content><category term="linux"></category><category term="raspberrypi"></category></entry><entry><title>IEEE 754 与 9999999999999999.0 - 9999999999999998.0 == 2.0</title><link href="https://bingfei.me/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0" rel="alternate"></link><published>2019-01-06T22:25:00+08:00</published><updated>2019-01-06T22:25:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2019-01-06:/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0</id><summary type="html">&lt;p&gt;为什么大多数编程语言计算 9999999999999999.0 - 9999999999999998.0 的结果是 2.0？因为 &lt;code&gt;IEEE 754&lt;/code&gt;。&lt;/p&gt;</summary><content type="html">&lt;h2&gt;1. 计算机算错了吗？&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Tetris® 99 screenshot" src="https://pbs.twimg.com/media/DznlORWU8AELB0h.jpg"&gt;&lt;/p&gt;</content><category term="linux"></category><category term="raspberrypi"></category></entry><entry><title>IEEE 754 与 9999999999999999.0 - 9999999999999998.0 == 2.0</title><link href="https://bingfei.me/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0" rel="alternate"></link><published>2019-01-06T22:25:00+08:00</published><updated>2019-01-06T22:25:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2019-01-06:/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0</id><summary type="html">&lt;p&gt;为什么大多数编程语言计算 9999999999999999.0 - 9999999999999998.0 的结果是 2.0？因为 &lt;code&gt;IEEE 754&lt;/code&gt;。&lt;/p&gt;</summary><content type="html">&lt;h2 id="1"&gt;1. 计算机算错了吗？&lt;a class="headerlink" href="#1" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;今天在 Twitter 上看到这样一条 &lt;a href="https://twitter.com/nixcraft/status/1081806050708283397"&gt;tweet&lt;/a&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;It’s a simple question:&lt;/p&gt;
@@ -153,12 +153,12 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 &lt;/table&gt;
 &lt;p&gt;&lt;strong&gt;WHY?&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;因为 &lt;code&gt;IEEE 754&lt;/code&gt;。&lt;/p&gt;
-&lt;h2&gt;2. IEEE 754&lt;/h2&gt;
+&lt;h2 id="2-ieee-754"&gt;2. IEEE 754&lt;a class="headerlink" href="#2-ieee-754" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The &lt;strong&gt;IEEE Standard for Floating-Point Arithmetic&lt;/strong&gt; (&lt;strong&gt;IEEE 754&lt;/strong&gt;) is a &lt;a href="https://en.wikipedia.org/wiki/Technical_standard"&gt;technical standard&lt;/a&gt; for &lt;a href="https://en.wikipedia.org/wiki/Floating-point_arithmetic"&gt;floating-point arithmetic&lt;/a&gt; established in 1985 by the &lt;a href="https://en.wikipedia.org/wiki/Institute_of_Electrical_and_Electronics_Engineers"&gt;Institute of Electrical and Electronics Engineers&lt;/a&gt; (IEEE). via &lt;a href="https://en.wikipedia.org/wiki/IEEE_754"&gt;en.wikipedia.org/wiki/IEEE_754&lt;/a&gt;)&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;1985 年，电气电子工程师协会（&lt;a href="https://zh.wikipedia.org/zh-cn/电气电子工程师协会"&gt;IEEE&lt;/a&gt;）制定了浮点数算数标准——IEEE 754，为许多CPU与浮点运算器所采用。IEEE 754 规定了四种表示浮点数值的方式：单精度（32位）、双精度（64位）、延伸单精度（43位以上，很少使用）与延伸双精度（79位以上，通常以80位实现）。现代的编程语言通常采用双精度（64位）进行浮点数算数运算。&lt;/p&gt;
-&lt;h3&gt;2.1 浮点数实现&lt;/h3&gt;
+&lt;h3 id="21"&gt;2.1 浮点数实现&lt;a class="headerlink" href="#21" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;a href="https://zh.wikipedia.org/wiki/IEEE_754#浮點數剖析"&gt;浮点数在计算机内部以二进制数表示&lt;/a&gt;，其结构如下：&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Value = sign × exponent × fraction&lt;/code&gt; （&lt;code&gt;值 = 符号位 * 指数偏移值 * 分数值&lt;/code&gt;） &lt;/p&gt;
 &lt;p&gt;其中：&lt;/p&gt;
@@ -180,17 +180,17 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 &lt;p&gt;在使用 32 位存储的浮点数中，符号位占 1 位，指数偏移值占 8 位，分数值占 23 位。&lt;/p&gt;
 &lt;p&gt;在使用 64 位存储的浮点数中，符号位占 1 位，指数偏移值占 11 位，分数值占 52 位。（如图所示：）&lt;/p&gt;
 &lt;p&gt;&lt;img alt="IEEE 754 双精度浮点数" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/IEEE_754_Double_Floating_Point_Format.svg"&gt;&lt;/p&gt;
-&lt;h4&gt;2.1.1 IEEE 754 规定了三个特殊值：&lt;/h4&gt;
+&lt;h4 id="211-ieee-754"&gt;2.1.1 IEEE 754 规定了三个特殊值：&lt;a class="headerlink" href="#211-ieee-754" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;如果&lt;em&gt;指数&lt;/em&gt;是 0 并且尾数的&lt;em&gt;小数部分&lt;/em&gt;是 0，这个数是 ±0（和符号位相关）&lt;/li&gt;
 &lt;li&gt;如果&lt;em&gt;指数&lt;/em&gt; = &lt;code&gt;2^(e - 1)&lt;/code&gt; 并且尾数的&lt;em&gt;小数部分&lt;/em&gt;是 0，这个数是 ±&lt;a href="https://zh.wikipedia.org/wiki/%E6%97%A0%E7%A9%B7%E5%A4%A7"&gt;∞&lt;/a&gt;（同样和符号位相关）&lt;/li&gt;
 &lt;li&gt;如果&lt;em&gt;指数&lt;/em&gt; = &lt;code&gt;2^(e - 1)&lt;/code&gt; 并且尾数的&lt;em&gt;小数部分&lt;/em&gt;非 0，这个数表示为&lt;a href="https://zh.wikipedia.org/wiki/NaN"&gt;不是一个数（NaN）&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;2.2 双精度有多精确？&lt;/h3&gt;
+&lt;h3 id="22"&gt;2.2 双精度有多精确？&lt;a class="headerlink" href="#22" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;双精度的&lt;strong&gt;分数部分共有 52 位&lt;/strong&gt;，加上规约形式前面省略的 1 位，因此共有 53 位二进制精度。&lt;/p&gt;
 &lt;p&gt;能表示的最大数值（在不考虑指数部分的情况下）为：&lt;code&gt;2^53 - 1 = 9007199254740991&lt;/code&gt; （十进制，共 16 位有效数字）。&lt;/p&gt;
 &lt;p&gt;超过精度的数值会被舍入，IEEE 754 默认的舍入规则为&lt;strong&gt;就近舍入&lt;/strong&gt;，即舍入到最近的偶数——二进制下末位为 0 的数值。&lt;/p&gt;
-&lt;h3&gt;2.3 双精度浮点数表示 &lt;code&gt;9999999999999999.0&lt;/code&gt; 和 &lt;code&gt;9999999999999998.0&lt;/code&gt;&lt;/h3&gt;
+&lt;h3 id="23-99999999999999990-99999999999999980"&gt;2.3 双精度浮点数表示 &lt;code&gt;9999999999999999.0&lt;/code&gt; 和 &lt;code&gt;9999999999999998.0&lt;/code&gt;&lt;a class="headerlink" href="#23-99999999999999990-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;考察 &lt;code&gt;9999999999999999&lt;/code&gt; 和 &lt;code&gt;9999999999999998&lt;/code&gt; 的二进制形式如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9999999999999999&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nb"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9999999999999998&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;0b100011100001101111001001101111110000001111111111111111&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# 二进制共 54 位&lt;/span&gt;
@@ -199,7 +199,7 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 
 
 &lt;p&gt;二进制共 54 位，规约后省略首位，仍有 53 位&lt;/p&gt;
-&lt;h4&gt;2.3.1 &lt;code&gt;9999999999999999.0&lt;/code&gt;:&lt;/h4&gt;
+&lt;h4 id="231-99999999999999990"&gt;2.3.1 &lt;code&gt;9999999999999999.0&lt;/code&gt;:&lt;a class="headerlink" href="#231-99999999999999990" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;1. 9999999999999999 用二进制表示为：
               100011100001101111001001101111110000001111111111111111
               └─────────────────────────┬──────────────────────────┘
@@ -216,7 +216,7 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h4&gt;2.3.2 &lt;code&gt;9999999999999998.0&lt;/code&gt;:&lt;/h4&gt;
+&lt;h4 id="232-99999999999999980"&gt;2.3.2 &lt;code&gt;9999999999999998.0&lt;/code&gt;:&lt;a class="headerlink" href="#232-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;1. 9999999999999998 用二进制表示为：
               100011100001101111001001101111110000001111111111111110
               └─────────────────────────┬──────────────────────────┘
@@ -233,7 +233,7 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;2.4 双精度浮点数表示 &lt;code&gt;9999999999999999.0 - 9999999999999998.0&lt;/code&gt;&lt;/h3&gt;
+&lt;h3 id="24-99999999999999990-99999999999999980"&gt;2.4 双精度浮点数表示 &lt;code&gt;9999999999999999.0 - 9999999999999998.0&lt;/code&gt;&lt;a class="headerlink" href="#24-99999999999999990-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;因此，在双精度浮点数表示下，&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   9999999999999999.0 - 9999999999999998.0
 = 10000000000000000.0 - 9999999999999998.0
@@ -242,7 +242,7 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 
 
 &lt;p&gt;也就可以理解了。&lt;/p&gt;
-&lt;h2&gt;最后&lt;/h2&gt;
+&lt;h2 id="_1"&gt;最后&lt;a class="headerlink" href="#_1" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;二进制可以精确地表示绝大部分常见的 10 进制整数，但无法精确地表示大部分常见的 10 进制小数（仅能精确表示&lt;a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%BF%9B%E5%88%86%E6%95%B0"&gt;二进分数&lt;/a&gt;  &lt;code&gt;m/2^n&lt;/code&gt;）。&lt;/p&gt;
 &lt;p&gt;比如 &lt;code&gt;0.1 + 0.2 == 0.30000000000000004&lt;/code&gt; 也是困扰无数计算机新手的经典问题。&lt;/p&gt;
 &lt;table&gt;
@@ -273,7 +273,7 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 &lt;/table&gt;
 &lt;p&gt;Well, nobody's perfect. - &lt;em&gt;&lt;a href="https://movie.douban.com/subject/1292574/"&gt;Some Like It Hot (1959)&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</content><category term="computer"></category></entry><entry><title>树莓派3零附件配置 Wi-Fi 和 SSH</title><link href="https://bingfei.me/blog/2018/raspberry-pi-3-setup" rel="alternate"></link><published>2018-01-03T17:30:00+08:00</published><updated>2018-01-03T17:30:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2018-01-03:/blog/2018/raspberry-pi-3-setup</id><summary type="html">&lt;p&gt;在没有外接键盘和显示器的条件下，配置树莓派通过 Wi-Fi 进行 SSH 登录&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://raspberrypi.org/"&gt;树莓派&lt;/a&gt;是一款基于 Linux 的单片机，由于体积小巧，价格低廉，可以用来学习 Linux 系统，编写并运行小型应用，做&lt;a href="https://kodi.tv/"&gt;家庭影音服务中心&lt;/a&gt;等。&lt;/p&gt;
 &lt;p&gt;几天前朋友送给我一块&lt;a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/"&gt;树莓派 3B&lt;/a&gt;，拥有四核 1.2GHz 64 位 ARM CPU，1GB LPDDR2 内存，四个 USB 2.0 接口，一个 MicroSD 卡槽，一个百兆以太网接口，支持 Wi-Fi 802.11n 和 蓝牙 4.1。&lt;/p&gt;
-&lt;h2&gt;1. 安装系统&lt;/h2&gt;
+&lt;h2 id="1"&gt;1. 安装系统&lt;a class="headerlink" href="#1" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;树莓派官方的操作系统 &lt;a href="https://www.raspberrypi.org/downloads/raspbian/"&gt;Raspbian&lt;/a&gt; 有三个版本：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Raspbian with desktop and recommended software&lt;/li&gt;
@@ -281,10 +281,10 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 &lt;li&gt;Raspbian Lite&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;我安装的是非桌面版本 Raspbian Lite，通过烧录工具 &lt;a href="https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/"&gt;ApplePi-Baker&lt;/a&gt; for macOS 把下载好的镜像文件&lt;a href="https://sspai.com/post/38542"&gt;写入 SD 卡&lt;/a&gt;。&lt;/p&gt;
-&lt;h2&gt;2. 启用 SSH&lt;/h2&gt;
+&lt;h2 id="2-ssh"&gt;2. 启用 SSH&lt;a class="headerlink" href="#2-ssh" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;几乎所有的教程都会要求使用外接键盘和显示器连接树莓派进行接下来的操作。如果没有这些附件怎么办呢？办法是有的。&lt;/p&gt;
 &lt;p&gt;SSH 默认状态下是关闭的，启用的方法是在 Raspbian 系统目录 &lt;code&gt;/mnt/sdc1&lt;/code&gt; 下创建一个名为 &lt;code&gt;ssh&lt;/code&gt; 的空文件。&lt;/p&gt;
-&lt;h2&gt;3. 启用自动连接 Wi-Fi&lt;/h2&gt;
+&lt;h2 id="3-wi-fi"&gt;3. 启用自动连接 Wi-Fi&lt;a class="headerlink" href="#3-wi-fi" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;在启用 SSH 的情况下，可以通过网络连接树莓派，比如网线或者 Wi-Fi。如果你恰好和我一样没有网线，或者只是讨厌给树莓派多插一条线的话，还可以通过 Wi-Fi 进行连接。&lt;/p&gt;
 &lt;p&gt;Wi-Fi 默认状态也是关闭的，幸运的是我找到了这个&lt;a href="https://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address/37921#37921"&gt;帖子&lt;/a&gt;，里面介绍了在烧录系统后直接配置 Wi-Fi 的方法。&lt;/p&gt;
 &lt;p&gt;Raspbian 在启动时会检查 &lt;code&gt;/boot&lt;/code&gt; 目录下的 &lt;code&gt;wpa_supplicant.conf&lt;/code&gt; 文件并把它移动到 &lt;code&gt;/etc/wpa_supplicant/wpa_supplicant.conf&lt;/code&gt; （如果文件已存在则会被覆盖），可以在这里进行 Wi-Fi 连接的参数配置。&lt;/p&gt;
@@ -300,6 +300,6 @@ network={
 
 
 &lt;p&gt;然后，替换 &lt;code&gt;SSID&lt;/code&gt; 和 &lt;code&gt;PASSWORD&lt;/code&gt; 为你希望连接的 Wi-Fi 名称和密码。&lt;/p&gt;
-&lt;h2&gt;4. 运行树莓派并通过 Wi-Fi 进行 SSH 登录&lt;/h2&gt;
+&lt;h2 id="4-wi-fi-ssh"&gt;4. 运行树莓派并通过 Wi-Fi 进行 SSH 登录&lt;a class="headerlink" href="#4-wi-fi-ssh" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;现在你可以把树莓派插卡通电放到角落里了。在终端中输入 &lt;code&gt;ssh pi@raspberrypi.local&lt;/code&gt; 进行登录，使用 &lt;code&gt;raspberry&lt;/code&gt; 作为初始密码。现在你应该已经登入了树莓派，可以按照自己的想法使用它了。&lt;/p&gt;
 &lt;p&gt;希望这篇文章对你有所帮助。&lt;/p&gt;</content><category term="linux"></category><category term="raspberrypi"></category></entry></feed>

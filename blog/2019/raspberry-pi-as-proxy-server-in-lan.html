@@ -81,13 +81,13 @@
                 <a href="https://bingfei.me/blog/2019/raspberry-pi-as-proxy-server-in-lan" rel="bookmark" title="Permalink to 树莓派局域网代理加速 Tetris® 99 for Nintendo Switch">树莓派局域网代理加速 Tetris® 99 for Nintendo Switch</a>
             </h1>
             <div class="entry-content blog-post">
-                <h2>1. Tetris® 99 的网络连接问题</h2>
+                <h2 id="1-tetris-99">1. Tetris® 99 的网络连接问题<a class="headerlink" href="#1-tetris-99" title="Permanent link">&para;</a></h2>
 <p>任天堂在 2 月 13 日推出了一款大逃杀模式的俄罗斯方块游戏 <a href="https://www.nintendo.com/games/detail/tetris-99-switch">Tetris® 99 for Nintendo Switch</a>。作为一名 Tetris 老玩家，自然是不能错过。由于是在线对战游戏，对网络质量要求较高。对战过程中经常出现网络连接失败导致自动退出，气得很想摔 Switch。</p>
 <p>最简单的方法是<a href="https://twitter.com/ibingfei/status/1096354236047081472">修改 Switch 网络设置的 DNS</a>，但效果并不好，下载游戏很快，但对战更容易掉线。</p>
 <p>给路由器添加代理支持是个好办法，但我现在用的路由器不支持，安装插件后无法正常连接代理节点，只好另辟蹊径。</p>
 <p>Switch 的网络接入点里面有 HTTP 代理的设置项，而我的 MacBook 上有 <a href="https://nssurge.com/">Surge</a> 支持局域网访问，此法可行。但是这个方案需要 MacBook 一直保持在唤醒状态，休眠的话 Tetris 99 立刻掉线给你看，所以只能作为临时方案使用。</p>
 <p>正好抽屉里还有个 24 小时运行的树莓派，做局域网 HTTP 代理服务器最合适不过了。shadowsocks 是最流行的代理方式，但它的官方客户端只支持 socks5 协议的流量，因此我们还需要一个将 HTTP 流量转换为 socks5 流量的工具，<a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)">privoxy</a> 可以做到。</p>
-<h2>2. 给树莓派安装 shadowsocks</h2>
+<h2 id="2-shadowsocks">2. 给树莓派安装 shadowsocks<a class="headerlink" href="#2-shadowsocks" title="Permanent link">&para;</a></h2>
 <p>首先，安装 <a href="https://github.com/shadowsocks/shadowsocks-libev">shadowsocks-libev</a>：</p>
 <div class="highlight"><pre><span></span>$ sudo apt-get update
 $ sudo apt-get install shadowsocks-libev
@@ -112,7 +112,7 @@ $ sudo apt-get install shadowsocks-libev
 
 
 <p>这时运行 <code>ss-local</code> 命令，你就可以在的前台看到节点连接情况。但当你关闭 SSH 会话时，这个进程也会停止，因此需要把它设为服务运行。</p>
-<h3>设置 <code>ss-local</code> 服务</h3>
+<h3 id="ss-local">设置 <code>ss-local</code> 服务<a class="headerlink" href="#ss-local" title="Permanent link">&para;</a></h3>
 <p>编辑 <code>ss-local</code> 服务的配置文件 <code>/lib/systemd/system/ss-local.service</code>：</p>
 <div class="highlight"><pre><span></span>$ sudo vim /lib/systemd/system/ss-local.service
 </pre></div>
@@ -149,7 +149,7 @@ $ sudo systemctl <span class="nb">enable</span> ss-local.service <span class="c1
 
 
 <p>你应该看到输出了远程 ss 代理节点的 IP 地址。</p>
-<h2>3. 安装 privoxy 转发 HTTP 流量</h2>
+<h2 id="3-privoxy-http">3. 安装 privoxy 转发 HTTP 流量<a class="headerlink" href="#3-privoxy-http" title="Permanent link">&para;</a></h2>
 <p><a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)">privoxy</a> 是一个 HTTP 协议过滤代理软件，安装：</p>
 <div class="highlight"><pre><span></span>$ sudo apt-get install privoxy
 </pre></div>
@@ -177,7 +177,7 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 
 
 <p>你应该看到输出了远程 ss 代理节点的 IP 地址。</p>
-<h2>4. 最后一步</h2>
+<h2 id="4">4. 最后一步<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
 <p>树莓派的代理服务已经成功运行，现在还需要在路由器的设置里面把树莓派的 IP 固定下来，以免每次树莓派切换 IP 还需要更改相应的 Switch 设置。</p>
 <p>如果你设置的静态 IP 和当前不一致，需要重启一下树莓派的网络服务：</p>
 <div class="highlight"><pre><span></span>$ sudo ifconfig wlan0 down<span class="p">;</span> sleep <span class="m">10</span><span class="p">;</span> sudo ifconfig wlan0 up

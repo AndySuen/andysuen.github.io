@@ -81,7 +81,7 @@
                 <a href="https://bingfei.me/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0" rel="bookmark" title="Permalink to IEEE 754 与 9999999999999999.0 - 9999999999999998.0 == 2.0">IEEE 754 与 9999999999999999.0 - 9999999999999998.0 == 2.0</a>
             </h1>
             <div class="entry-content blog-post">
-                <h2>1. 计算机算错了吗？</h2>
+                <h2 id="1">1. 计算机算错了吗？<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
 <p>今天在 Twitter 上看到这样一条 <a href="https://twitter.com/nixcraft/status/1081806050708283397">tweet</a>:</p>
 <blockquote>
 <p>It’s a simple question:</p>
@@ -130,12 +130,12 @@
 </table>
 <p><strong>WHY?</strong></p>
 <p>因为 <code>IEEE 754</code>。</p>
-<h2>2. IEEE 754</h2>
+<h2 id="2-ieee-754">2. IEEE 754<a class="headerlink" href="#2-ieee-754" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>The <strong>IEEE Standard for Floating-Point Arithmetic</strong> (<strong>IEEE 754</strong>) is a <a href="https://en.wikipedia.org/wiki/Technical_standard">technical standard</a> for <a href="https://en.wikipedia.org/wiki/Floating-point_arithmetic">floating-point arithmetic</a> established in 1985 by the <a href="https://en.wikipedia.org/wiki/Institute_of_Electrical_and_Electronics_Engineers">Institute of Electrical and Electronics Engineers</a> (IEEE). via <a href="https://en.wikipedia.org/wiki/IEEE_754">en.wikipedia.org/wiki/IEEE_754</a>)</p>
 </blockquote>
 <p>1985 年，电气电子工程师协会（<a href="https://zh.wikipedia.org/zh-cn/电气电子工程师协会">IEEE</a>）制定了浮点数算数标准——IEEE 754，为许多CPU与浮点运算器所采用。IEEE 754 规定了四种表示浮点数值的方式：单精度（32位）、双精度（64位）、延伸单精度（43位以上，很少使用）与延伸双精度（79位以上，通常以80位实现）。现代的编程语言通常采用双精度（64位）进行浮点数算数运算。</p>
-<h3>2.1 浮点数实现</h3>
+<h3 id="21">2.1 浮点数实现<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
 <p><a href="https://zh.wikipedia.org/wiki/IEEE_754#浮點數剖析">浮点数在计算机内部以二进制数表示</a>，其结构如下：</p>
 <p><code>Value = sign × exponent × fraction</code> （<code>值 = 符号位 * 指数偏移值 * 分数值</code>） </p>
 <p>其中：</p>
@@ -157,17 +157,17 @@
 <p>在使用 32 位存储的浮点数中，符号位占 1 位，指数偏移值占 8 位，分数值占 23 位。</p>
 <p>在使用 64 位存储的浮点数中，符号位占 1 位，指数偏移值占 11 位，分数值占 52 位。（如图所示：）</p>
 <p><img alt="IEEE 754 双精度浮点数" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/IEEE_754_Double_Floating_Point_Format.svg"></p>
-<h4>2.1.1 IEEE 754 规定了三个特殊值：</h4>
+<h4 id="211-ieee-754">2.1.1 IEEE 754 规定了三个特殊值：<a class="headerlink" href="#211-ieee-754" title="Permanent link">&para;</a></h4>
 <ul>
 <li>如果<em>指数</em>是 0 并且尾数的<em>小数部分</em>是 0，这个数是 ±0（和符号位相关）</li>
 <li>如果<em>指数</em> = <code>2^(e - 1)</code> 并且尾数的<em>小数部分</em>是 0，这个数是 ±<a href="https://zh.wikipedia.org/wiki/%E6%97%A0%E7%A9%B7%E5%A4%A7">∞</a>（同样和符号位相关）</li>
 <li>如果<em>指数</em> = <code>2^(e - 1)</code> 并且尾数的<em>小数部分</em>非 0，这个数表示为<a href="https://zh.wikipedia.org/wiki/NaN">不是一个数（NaN）</a></li>
 </ul>
-<h3>2.2 双精度有多精确？</h3>
+<h3 id="22">2.2 双精度有多精确？<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
 <p>双精度的<strong>分数部分共有 52 位</strong>，加上规约形式前面省略的 1 位，因此共有 53 位二进制精度。</p>
 <p>能表示的最大数值（在不考虑指数部分的情况下）为：<code>2^53 - 1 = 9007199254740991</code> （十进制，共 16 位有效数字）。</p>
 <p>超过精度的数值会被舍入，IEEE 754 默认的舍入规则为<strong>就近舍入</strong>，即舍入到最近的偶数——二进制下末位为 0 的数值。</p>
-<h3>2.3 双精度浮点数表示 <code>9999999999999999.0</code> 和 <code>9999999999999998.0</code></h3>
+<h3 id="23-99999999999999990-99999999999999980">2.3 双精度浮点数表示 <code>9999999999999999.0</code> 和 <code>9999999999999998.0</code><a class="headerlink" href="#23-99999999999999990-99999999999999980" title="Permanent link">&para;</a></h3>
 <p>考察 <code>9999999999999999</code> 和 <code>9999999999999998</code> 的二进制形式如下：</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">bin</span><span class="p">(</span><span class="mi">9999999999999999</span><span class="p">),</span> <span class="nb">bin</span><span class="p">(</span><span class="mi">9999999999999998</span><span class="p">)</span>
 <span class="o">&lt;&lt;&lt;</span> <span class="p">(</span><span class="s1">&#39;0b100011100001101111001001101111110000001111111111111111&#39;</span><span class="p">,</span> <span class="c1"># 二进制共 54 位</span>
@@ -176,7 +176,7 @@
 
 
 <p>二进制共 54 位，规约后省略首位，仍有 53 位</p>
-<h4>2.3.1 <code>9999999999999999.0</code>:</h4>
+<h4 id="231-99999999999999990">2.3.1 <code>9999999999999999.0</code>:<a class="headerlink" href="#231-99999999999999990" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span>1. 9999999999999999 用二进制表示为：
               100011100001101111001001101111110000001111111111111111
               └─────────────────────────┬──────────────────────────┘
@@ -193,7 +193,7 @@
 </pre></div>
 
 
-<h4>2.3.2 <code>9999999999999998.0</code>:</h4>
+<h4 id="232-99999999999999980">2.3.2 <code>9999999999999998.0</code>:<a class="headerlink" href="#232-99999999999999980" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span>1. 9999999999999998 用二进制表示为：
               100011100001101111001001101111110000001111111111111110
               └─────────────────────────┬──────────────────────────┘
@@ -210,7 +210,7 @@
 </pre></div>
 
 
-<h3>2.4 双精度浮点数表示 <code>9999999999999999.0 - 9999999999999998.0</code></h3>
+<h3 id="24-99999999999999990-99999999999999980">2.4 双精度浮点数表示 <code>9999999999999999.0 - 9999999999999998.0</code><a class="headerlink" href="#24-99999999999999990-99999999999999980" title="Permanent link">&para;</a></h3>
 <p>因此，在双精度浮点数表示下，</p>
 <div class="highlight"><pre><span></span>   9999999999999999.0 - 9999999999999998.0
 = 10000000000000000.0 - 9999999999999998.0
@@ -219,7 +219,7 @@
 
 
 <p>也就可以理解了。</p>
-<h2>最后</h2>
+<h2 id="_1">最后<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>二进制可以精确地表示绝大部分常见的 10 进制整数，但无法精确地表示大部分常见的 10 进制小数（仅能精确表示<a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%BF%9B%E5%88%86%E6%95%B0">二进分数</a>  <code>m/2^n</code>）。</p>
 <p>比如 <code>0.1 + 0.2 == 0.30000000000000004</code> 也是困扰无数计算机新手的经典问题。</p>
 <table>

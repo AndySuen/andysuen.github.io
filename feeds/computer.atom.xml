@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Andy's blog - computer</title><link href="https://bingfei.me/" rel="alternate"></link><link href="https://bingfei.me/feeds/computer.atom.xml" rel="self"></link><id>https://bingfei.me/</id><updated>2019-01-06T22:25:00+08:00</updated><entry><title>IEEE 754 与 9999999999999999.0 - 9999999999999998.0 == 2.0</title><link href="https://bingfei.me/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0" rel="alternate"></link><published>2019-01-06T22:25:00+08:00</published><updated>2019-01-06T22:25:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2019-01-06:/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0</id><summary type="html">&lt;p&gt;为什么大多数编程语言计算 9999999999999999.0 - 9999999999999998.0 的结果是 2.0？因为 &lt;code&gt;IEEE 754&lt;/code&gt;。&lt;/p&gt;</summary><content type="html">&lt;h2&gt;1. 计算机算错了吗？&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Andy's blog - computer</title><link href="https://bingfei.me/" rel="alternate"></link><link href="https://bingfei.me/feeds/computer.atom.xml" rel="self"></link><id>https://bingfei.me/</id><updated>2019-01-06T22:25:00+08:00</updated><entry><title>IEEE 754 与 9999999999999999.0 - 9999999999999998.0 == 2.0</title><link href="https://bingfei.me/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0" rel="alternate"></link><published>2019-01-06T22:25:00+08:00</published><updated>2019-01-06T22:25:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2019-01-06:/blog/2019/IEEE-754-and-9999999999999999.0-9999999999999998.0-2.0</id><summary type="html">&lt;p&gt;为什么大多数编程语言计算 9999999999999999.0 - 9999999999999998.0 的结果是 2.0？因为 &lt;code&gt;IEEE 754&lt;/code&gt;。&lt;/p&gt;</summary><content type="html">&lt;h2 id="1"&gt;1. 计算机算错了吗？&lt;a class="headerlink" href="#1" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;今天在 Twitter 上看到这样一条 &lt;a href="https://twitter.com/nixcraft/status/1081806050708283397"&gt;tweet&lt;/a&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;It’s a simple question:&lt;/p&gt;
@@ -48,12 +48,12 @@
 &lt;/table&gt;
 &lt;p&gt;&lt;strong&gt;WHY?&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;因为 &lt;code&gt;IEEE 754&lt;/code&gt;。&lt;/p&gt;
-&lt;h2&gt;2. IEEE 754&lt;/h2&gt;
+&lt;h2 id="2-ieee-754"&gt;2. IEEE 754&lt;a class="headerlink" href="#2-ieee-754" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The &lt;strong&gt;IEEE Standard for Floating-Point Arithmetic&lt;/strong&gt; (&lt;strong&gt;IEEE 754&lt;/strong&gt;) is a &lt;a href="https://en.wikipedia.org/wiki/Technical_standard"&gt;technical standard&lt;/a&gt; for &lt;a href="https://en.wikipedia.org/wiki/Floating-point_arithmetic"&gt;floating-point arithmetic&lt;/a&gt; established in 1985 by the &lt;a href="https://en.wikipedia.org/wiki/Institute_of_Electrical_and_Electronics_Engineers"&gt;Institute of Electrical and Electronics Engineers&lt;/a&gt; (IEEE). via &lt;a href="https://en.wikipedia.org/wiki/IEEE_754"&gt;en.wikipedia.org/wiki/IEEE_754&lt;/a&gt;)&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;1985 年，电气电子工程师协会（&lt;a href="https://zh.wikipedia.org/zh-cn/电气电子工程师协会"&gt;IEEE&lt;/a&gt;）制定了浮点数算数标准——IEEE 754，为许多CPU与浮点运算器所采用。IEEE 754 规定了四种表示浮点数值的方式：单精度（32位）、双精度（64位）、延伸单精度（43位以上，很少使用）与延伸双精度（79位以上，通常以80位实现）。现代的编程语言通常采用双精度（64位）进行浮点数算数运算。&lt;/p&gt;
-&lt;h3&gt;2.1 浮点数实现&lt;/h3&gt;
+&lt;h3 id="21"&gt;2.1 浮点数实现&lt;a class="headerlink" href="#21" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;&lt;a href="https://zh.wikipedia.org/wiki/IEEE_754#浮點數剖析"&gt;浮点数在计算机内部以二进制数表示&lt;/a&gt;，其结构如下：&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Value = sign × exponent × fraction&lt;/code&gt; （&lt;code&gt;值 = 符号位 * 指数偏移值 * 分数值&lt;/code&gt;） &lt;/p&gt;
 &lt;p&gt;其中：&lt;/p&gt;
@@ -75,17 +75,17 @@
 &lt;p&gt;在使用 32 位存储的浮点数中，符号位占 1 位，指数偏移值占 8 位，分数值占 23 位。&lt;/p&gt;
 &lt;p&gt;在使用 64 位存储的浮点数中，符号位占 1 位，指数偏移值占 11 位，分数值占 52 位。（如图所示：）&lt;/p&gt;
 &lt;p&gt;&lt;img alt="IEEE 754 双精度浮点数" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/IEEE_754_Double_Floating_Point_Format.svg"&gt;&lt;/p&gt;
-&lt;h4&gt;2.1.1 IEEE 754 规定了三个特殊值：&lt;/h4&gt;
+&lt;h4 id="211-ieee-754"&gt;2.1.1 IEEE 754 规定了三个特殊值：&lt;a class="headerlink" href="#211-ieee-754" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;如果&lt;em&gt;指数&lt;/em&gt;是 0 并且尾数的&lt;em&gt;小数部分&lt;/em&gt;是 0，这个数是 ±0（和符号位相关）&lt;/li&gt;
 &lt;li&gt;如果&lt;em&gt;指数&lt;/em&gt; = &lt;code&gt;2^(e - 1)&lt;/code&gt; 并且尾数的&lt;em&gt;小数部分&lt;/em&gt;是 0，这个数是 ±&lt;a href="https://zh.wikipedia.org/wiki/%E6%97%A0%E7%A9%B7%E5%A4%A7"&gt;∞&lt;/a&gt;（同样和符号位相关）&lt;/li&gt;
 &lt;li&gt;如果&lt;em&gt;指数&lt;/em&gt; = &lt;code&gt;2^(e - 1)&lt;/code&gt; 并且尾数的&lt;em&gt;小数部分&lt;/em&gt;非 0，这个数表示为&lt;a href="https://zh.wikipedia.org/wiki/NaN"&gt;不是一个数（NaN）&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;2.2 双精度有多精确？&lt;/h3&gt;
+&lt;h3 id="22"&gt;2.2 双精度有多精确？&lt;a class="headerlink" href="#22" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;双精度的&lt;strong&gt;分数部分共有 52 位&lt;/strong&gt;，加上规约形式前面省略的 1 位，因此共有 53 位二进制精度。&lt;/p&gt;
 &lt;p&gt;能表示的最大数值（在不考虑指数部分的情况下）为：&lt;code&gt;2^53 - 1 = 9007199254740991&lt;/code&gt; （十进制，共 16 位有效数字）。&lt;/p&gt;
 &lt;p&gt;超过精度的数值会被舍入，IEEE 754 默认的舍入规则为&lt;strong&gt;就近舍入&lt;/strong&gt;，即舍入到最近的偶数——二进制下末位为 0 的数值。&lt;/p&gt;
-&lt;h3&gt;2.3 双精度浮点数表示 &lt;code&gt;9999999999999999.0&lt;/code&gt; 和 &lt;code&gt;9999999999999998.0&lt;/code&gt;&lt;/h3&gt;
+&lt;h3 id="23-99999999999999990-99999999999999980"&gt;2.3 双精度浮点数表示 &lt;code&gt;9999999999999999.0&lt;/code&gt; 和 &lt;code&gt;9999999999999998.0&lt;/code&gt;&lt;a class="headerlink" href="#23-99999999999999990-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;考察 &lt;code&gt;9999999999999999&lt;/code&gt; 和 &lt;code&gt;9999999999999998&lt;/code&gt; 的二进制形式如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9999999999999999&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nb"&gt;bin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9999999999999998&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;0b100011100001101111001001101111110000001111111111111111&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;# 二进制共 54 位&lt;/span&gt;
@@ -94,7 +94,7 @@
 
 
 &lt;p&gt;二进制共 54 位，规约后省略首位，仍有 53 位&lt;/p&gt;
-&lt;h4&gt;2.3.1 &lt;code&gt;9999999999999999.0&lt;/code&gt;:&lt;/h4&gt;
+&lt;h4 id="231-99999999999999990"&gt;2.3.1 &lt;code&gt;9999999999999999.0&lt;/code&gt;:&lt;a class="headerlink" href="#231-99999999999999990" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;1. 9999999999999999 用二进制表示为：
               100011100001101111001001101111110000001111111111111111
               └─────────────────────────┬──────────────────────────┘
@@ -111,7 +111,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h4&gt;2.3.2 &lt;code&gt;9999999999999998.0&lt;/code&gt;:&lt;/h4&gt;
+&lt;h4 id="232-99999999999999980"&gt;2.3.2 &lt;code&gt;9999999999999998.0&lt;/code&gt;:&lt;a class="headerlink" href="#232-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;1. 9999999999999998 用二进制表示为：
               100011100001101111001001101111110000001111111111111110
               └─────────────────────────┬──────────────────────────┘
@@ -128,7 +128,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;2.4 双精度浮点数表示 &lt;code&gt;9999999999999999.0 - 9999999999999998.0&lt;/code&gt;&lt;/h3&gt;
+&lt;h3 id="24-99999999999999990-99999999999999980"&gt;2.4 双精度浮点数表示 &lt;code&gt;9999999999999999.0 - 9999999999999998.0&lt;/code&gt;&lt;a class="headerlink" href="#24-99999999999999990-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;因此，在双精度浮点数表示下，&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   9999999999999999.0 - 9999999999999998.0
 = 10000000000000000.0 - 9999999999999998.0
@@ -137,7 +137,7 @@
 
 
 &lt;p&gt;也就可以理解了。&lt;/p&gt;
-&lt;h2&gt;最后&lt;/h2&gt;
+&lt;h2 id="_1"&gt;最后&lt;a class="headerlink" href="#_1" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;二进制可以精确地表示绝大部分常见的 10 进制整数，但无法精确地表示大部分常见的 10 进制小数（仅能精确表示&lt;a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%BF%9B%E5%88%86%E6%95%B0"&gt;二进分数&lt;/a&gt;  &lt;code&gt;m/2^n&lt;/code&gt;）。&lt;/p&gt;
 &lt;p&gt;比如 &lt;code&gt;0.1 + 0.2 == 0.30000000000000004&lt;/code&gt; 也是困扰无数计算机新手的经典问题。&lt;/p&gt;
 &lt;table&gt;
