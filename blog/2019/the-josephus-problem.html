@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" itemscope itemtype="http://schema.org/Person">
+<head>
+            <meta charset="utf-8">
+        <!-- Site Meta Data -->
+        <title>The Josephus Problem（约瑟夫问题）</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Andy">
+
+        <link rel="shortcut icon" href="/favicon.ico">
+
+        <!-- schema.org -->
+        <meta itemprop="name" content="Andy's blog">
+        <meta itemprop="image" content="">
+        <meta itemprop="description" content="">
+
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+        <!-- Style Meta Data -->
+        <link rel="stylesheet" href="https://bingfei.me/theme/css/style.css" type="text/css"/>
+        <link rel="stylesheet" href="https://bingfei.me/theme/css/pygments.css" type="text/css"/>
+
+        <!-- Feed Meta Data -->
+            <link href="https://bingfei.me/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+                  title="Andy's blog ATOM Feed"/>
+
+        <!-- Twitter Feed -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="ibingfei">
+        <meta name="twitter:image" content="">
+
+    <meta name="twitter:creator" content="ibingfei">
+    <meta name="twitter:url" content="https://bingfei.me/blog/2019/the-josephus-problem">
+    <meta name="twitter:title" content="Andy's blog ~ The Josephus Problem（约瑟夫问题）">
+    <meta name="twitter:description" content="N 个人围成一圈，按顺时针方向编号，从第一位开始每次隔一个人去掉一个人，最终留下的是第几号？">
+
+    <!-- Facebook Meta Data -->
+    <meta property="og:title" content="Andy's blog ~ The Josephus Problem（约瑟夫问题）"/>
+    <meta property="og:description" content="N 个人围成一圈，按顺时针方向编号，从第一位开始每次隔一个人去掉一个人，最终留下的是第几号？"/>
+    <meta property="og:image" content=""/>
+</head>
+
+<body>
+<!-- Sidebar -->
+<aside>
+    <!--<center><a href="https://bingfei.me"><img id="avatar" src=""></a></center>-->
+    <h1>Andy's blog</h1>
+        <p>Web developer</p>
+    <br>
+
+
+    <nav class="nav">
+        <ul class="list-bare">
+
+                <li><a class="nav__link" href="/">Home</a></li>
+                <li><a class="nav__link" href="/archives.html">Archive</a></li>
+
+                <li><a class="nav__link" href="https://bingfei.me/pages/about.html">About</a></li>
+
+        </ul>
+    </nav>
+
+    <p class="social">
+                <a href="https://twitter.com/ibingfei" target="_blank"><img
+                        src="https://bingfei.me/theme/images/icons/twitter.png"></a>
+                <a href="https://github.com/andysuen" target="_blank"><img
+                        src="https://bingfei.me/theme/images/icons/github.png"></a>
+            <a href="https://bingfei.me/feeds/all.atom.xml" rel="alternate">
+                <img src="https://bingfei.me/theme/images/icons/rss.png"></a>
+    </p>
+
+
+
+</aside>
+
+<!-- Content -->
+<article>
+    <section id="content">
+        <article>
+            <h1 class="post_title post_detail">
+                <a href="https://bingfei.me/blog/2019/the-josephus-problem" rel="bookmark" title="Permalink to The Josephus Problem（约瑟夫问题）">The Josephus Problem（约瑟夫问题）</a>
+            </h1>
+            <div class="entry-content blog-post">
+                <h2 id="1">1. 约瑟夫问题<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>约瑟夫问题</strong>（有时也称为<strong>约瑟夫斯置换</strong>），是一个出现在计算机科学和数学中的问题。在计算机编程的算法中，类似问题又称为<strong>约瑟夫环</strong>。</p>
+<p>人们站在一个等待被处决的圈子里。 计数从圆圈中的指定点开始，并沿指定方向围绕圆圈进行。 在跳过指定数量的人之后，执行下一个人。 对剩下的人重复该过程，从下一个人开始，朝同一方向跳过相同数量的人，直到只剩下一个人，并被释放。 </p>
+<p>问题即，给定人数、起点、方向和要跳过的数字，选择初始圆圈中的位置以避免被处决。</p>
+<p>——<a href="https://zh.wikipedia.org/wiki/约瑟夫斯问题">约瑟夫问题 -Wikipedia</a></p>
+</blockquote>
+<p>现在给定人数 n、起点 1、方向顺时针、要跳过的数字 1，求应该选择初始圆圈中的什么位置以避免被处决？</p>
+<h2 id="2">2. 模拟筛选的过程<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>最简单的解法，即按问题的描述直接翻译成程序求解。使用数组或单向循环链表来模拟筛选的过程：</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">josephus</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">circle</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># 使用数组</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">circle</span><span class="o">.</span><span class="n">pop</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span>
+        <span class="n">n</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">circle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+
+<p>有没有更简单的解法呢？</p>
+<p>有。</p>
+<h2 id="3">3. 解析解<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p><a href="https://zh.wikipedia.org/zh-hans/解析解">解析解</a>又叫公式解。在 Online Judge 系统中，如果你看到排行榜上某解法的运行时间比你的循环/递归版本快几个数量级，那么很有可能是他发现了解析解。</p>
+<p>在上述的过程中，每一圈筛选过后，人数都会<strong>减半</strong>。</p>
+<ol>
+<li>
+<p>如果 <code>n</code> 为偶数，那么第一圈筛选过后，剩下的位置 <code>p</code> 上的人的编号 <code>q = 2p - 1</code>，接下来一圈会跳过 <code>1</code> 号。</p>
+</li>
+<li>
+<p>如果 <code>n = 2^m</code>，那么每一圈筛选后，<code>1</code> 号都会被跳过。此种情况下，<code>1</code> 号成为驻点，会最终留下。</p>
+</li>
+</ol>
+<p>推广到一般情况，<code>n</code> 可以表示成 <code>n = 2^m + k</code> 的形式，其中 <code>m = floor(log(n))</code>，则 <code>0 &lt;= k &lt; n/2</code>。</p>
+<p>此时，当去掉 k 名成员后，这个问题就变成了上述第二条的情况 <code>2^m</code>，刚才去掉的第 k 名成员的下一位成为驻点，会最终留下。</p>
+<p>由于：</p>
+<ol>
+<li><code>k &lt; n/2</code>，而首轮筛选就会去掉 <code>n/2</code> 个人，则第 k 个被去掉的人在第一轮就可以找到，编号为 <code>2k</code>。</li>
+<li>他的下一位，<code>2k + 1</code> 成为驻点，最终留下。</li>
+</ol>
+<p>因此，最终留下的人编号为 <code>s = 2k + 1</code>，其中  <code>n = 2^m + k</code> ， <code>m = floor(log(n))</code>，</p>
+<p>化简得 <code>s = 2(n - 2^( floor(log(n)) )) + 1</code>。</p>
+<h2 id="4">4. 解的二进制表示<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p>上述结果用二进制表示更加简洁，</p>
+<p>由于 n = b<sub>m</sub>b<sub>m-1</sub>b<sub>m-2</sub>...b<sub>1</sub> ，</p>
+<p>则 k = b<sub>m-1</sub>b<sub>m-2</sub>…b<sub>1</sub>，</p>
+<p>幸存者编号 s = 2k + 1 = b<sub>m-1</sub>b<sub>m-2</sub>…b<sub>1</sub>1 = b<sub>m-1</sub>b<sub>m-2</sub>...b<sub>1</sub>b<sub>m</sub>。</p>
+<p>即将 n 二进制中首位移到末尾即可。</p>
+<h2 id="5">5. 新的问题<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<ol>
+<li>最后留下的倒数第二个人的编号是多少？</li>
+<li>当间隔不为 1 的时候，最终幸存者编号是多少？</li>
+</ol>
+            </div>
+            <div class="post_list">
+                <span>By </span>
+                <a href="https://bingfei.me/author/andy.html">@Andy</a>
+                <span> in </span>
+                <span class="post_category">
+                    <a href="https://bingfei.me/category/computer-algorithm-maths.html" rel="bookmark" title="Permalink to computer, algorithm, maths">[ computer, algorithm, maths ]</a>
+                </span>
+                <span class="post_date">Sun 21 April 2019</span>
+                <div><span>Tags: </span>
+                            <span><a href="https://bingfei.me/tag/computer.html">#computer </a></span>
+                            <span><a href="https://bingfei.me/tag/algorithm.html">#algorithm </a></span>
+                            <span><a href="https://bingfei.me/tag/maths.html">#maths </a></span>
+                </div>
+
+                <div class="entry-social">
+                    <span>Share: </span>
+
+                    <span class="mail icon">
+                        <a href="mailto:?subject=The Josephus Problem（约瑟夫问题）&amp;body=Viens découvrir un article à propos de [The Josephus Problem（约瑟夫问题）] sur le site de Andy. https://bingfei.me/blog/2019/the-josephus-problem" title="Share by Email" target="_blank">
+                            <img src="https://bingfei.me/theme/images/icons/mail-s.png">
+                        </a>
+                    </span>
+
+                    <span class="twitter icon">
+                        <a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=https://bingfei.me/blog/2019/the-josephus-problem&text=The Josephus Problem（约瑟夫问题）&via=ibingfei">
+                            <img src="https://bingfei.me/theme/images/icons/twitter-s.png">
+                        </a>
+                    </span>
+
+                    <span class="facebook icon">
+                        <a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=https://bingfei.me/blog/2019/the-josephus-problem&t=The Josephus Problem（约瑟夫问题）">
+                            <img src="https://bingfei.me/theme/images/icons/facebook-s.png">
+                        </a>
+                    </span>
+
+                    <span class="linkedin icon">
+                        <a target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://bingfei.me/blog/2019/the-josephus-problem&title=The Josephus Problem（约瑟夫问题）" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;">
+                            <img src="https://bingfei.me/theme/images/icons/linkedin-s.png">
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </article>
+    </section>
+</article>
+
+<!-- Footer -->
+    <footer>
+        <p>
+            Powered by <a target="_blank" href="https://blog.getpelican.com/">Pelican</a><!-- ,
+            which takes great advantage of <a href="http://python.org">Python</a> -->.
+            Theme <a target="_blank" href="https://github.com/parbhat/pelican-blue">Pelican-Blue</a><!--  by <a
+                href="https://parbhatpuri.com/">@parbhat</a> -->.
+        </p>
+    </footer>
+
+
+</body>
+</html>

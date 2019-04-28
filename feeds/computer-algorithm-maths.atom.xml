@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Andy's blog - computer, algorithm, maths</title><link href="https://bingfei.me/" rel="alternate"></link><link href="https://bingfei.me/feeds/computer-algorithm-maths.atom.xml" rel="self"></link><id>https://bingfei.me/</id><updated>2019-04-21T22:00:00+08:00</updated><entry><title>The Josephus Problem（约瑟夫问题）</title><link href="https://bingfei.me/blog/2019/the-josephus-problem" rel="alternate"></link><published>2019-04-21T22:00:00+08:00</published><updated>2019-04-21T22:00:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2019-04-21:/blog/2019/the-josephus-problem</id><summary type="html">&lt;p&gt;N 个人围成一圈，按顺时针方向编号，从第一位开始每次隔一个人去掉一个人，最终留下的是第几号？&lt;/p&gt;</summary><content type="html">&lt;h2 id="1"&gt;1. 约瑟夫问题&lt;a class="headerlink" href="#1" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;约瑟夫问题&lt;/strong&gt;（有时也称为&lt;strong&gt;约瑟夫斯置换&lt;/strong&gt;），是一个出现在计算机科学和数学中的问题。在计算机编程的算法中，类似问题又称为&lt;strong&gt;约瑟夫环&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;人们站在一个等待被处决的圈子里。 计数从圆圈中的指定点开始，并沿指定方向围绕圆圈进行。 在跳过指定数量的人之后，执行下一个人。 对剩下的人重复该过程，从下一个人开始，朝同一方向跳过相同数量的人，直到只剩下一个人，并被释放。 &lt;/p&gt;
+&lt;p&gt;问题即，给定人数、起点、方向和要跳过的数字，选择初始圆圈中的位置以避免被处决。&lt;/p&gt;
+&lt;p&gt;——&lt;a href="https://zh.wikipedia.org/wiki/约瑟夫斯问题"&gt;约瑟夫问题 -Wikipedia&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;现在给定人数 n、起点 1、方向顺时针、要跳过的数字 1，求应该选择初始圆圈中的什么位置以避免被处决？&lt;/p&gt;
+&lt;h2 id="2"&gt;2. 模拟筛选的过程&lt;a class="headerlink" href="#2" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;最简单的解法，即按问题的描述直接翻译成程序求解。使用数组或单向循环链表来模拟筛选的过程：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;josephus&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;circle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  &lt;span class="c1"&gt;# 使用数组&lt;/span&gt;
+    &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;circle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;
+        &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;circle&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;有没有更简单的解法呢？&lt;/p&gt;
+&lt;p&gt;有。&lt;/p&gt;
+&lt;h2 id="3"&gt;3. 解析解&lt;a class="headerlink" href="#3" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://zh.wikipedia.org/zh-hans/解析解"&gt;解析解&lt;/a&gt;又叫公式解。在 Online Judge 系统中，如果你看到排行榜上某解法的运行时间比你的循环/递归版本快几个数量级，那么很有可能是他发现了解析解。&lt;/p&gt;
+&lt;p&gt;在上述的过程中，每一圈筛选过后，人数都会&lt;strong&gt;减半&lt;/strong&gt;。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;如果 &lt;code&gt;n&lt;/code&gt; 为偶数，那么第一圈筛选过后，剩下的位置 &lt;code&gt;p&lt;/code&gt; 上的人的编号 &lt;code&gt;q = 2p - 1&lt;/code&gt;，接下来一圈会跳过 &lt;code&gt;1&lt;/code&gt; 号。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果 &lt;code&gt;n = 2^m&lt;/code&gt;，那么每一圈筛选后，&lt;code&gt;1&lt;/code&gt; 号都会被跳过。此种情况下，&lt;code&gt;1&lt;/code&gt; 号成为驻点，会最终留下。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;推广到一般情况，&lt;code&gt;n&lt;/code&gt; 可以表示成 &lt;code&gt;n = 2^m + k&lt;/code&gt; 的形式，其中 &lt;code&gt;m = floor(log(n))&lt;/code&gt;，则 &lt;code&gt;0 &amp;lt;= k &amp;lt; n/2&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;此时，当去掉 k 名成员后，这个问题就变成了上述第二条的情况 &lt;code&gt;2^m&lt;/code&gt;，刚才去掉的第 k 名成员的下一位成为驻点，会最终留下。&lt;/p&gt;
+&lt;p&gt;由于：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;k &amp;lt; n/2&lt;/code&gt;，而首轮筛选就会去掉 &lt;code&gt;n/2&lt;/code&gt; 个人，则第 k 个被去掉的人在第一轮就可以找到，编号为 &lt;code&gt;2k&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;他的下一位，&lt;code&gt;2k + 1&lt;/code&gt; 成为驻点，最终留下。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;因此，最终留下的人编号为 &lt;code&gt;s = 2k + 1&lt;/code&gt;，其中  &lt;code&gt;n = 2^m + k&lt;/code&gt; ， &lt;code&gt;m = floor(log(n))&lt;/code&gt;，&lt;/p&gt;
+&lt;p&gt;化简得 &lt;code&gt;s = 2(n - 2^( floor(log(n)) )) + 1&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id="4"&gt;4. 解的二进制表示&lt;a class="headerlink" href="#4" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;上述结果用二进制表示更加简洁，&lt;/p&gt;
+&lt;p&gt;由于 n = b&lt;sub&gt;m&lt;/sub&gt;b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;...b&lt;sub&gt;1&lt;/sub&gt; ，&lt;/p&gt;
+&lt;p&gt;则 k = b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;…b&lt;sub&gt;1&lt;/sub&gt;，&lt;/p&gt;
+&lt;p&gt;幸存者编号 s = 2k + 1 = b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;…b&lt;sub&gt;1&lt;/sub&gt;1 = b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;...b&lt;sub&gt;1&lt;/sub&gt;b&lt;sub&gt;m&lt;/sub&gt;。&lt;/p&gt;
+&lt;p&gt;即将 n 二进制中首位移到末尾即可。&lt;/p&gt;
+&lt;h2 id="5"&gt;5. 新的问题&lt;a class="headerlink" href="#5" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;最后留下的倒数第二个人的编号是多少？&lt;/li&gt;
+&lt;li&gt;当间隔不为 1 的时候，最终幸存者编号是多少？&lt;/li&gt;
+&lt;/ol&gt;</content><category term="computer"></category><category term="algorithm"></category><category term="maths"></category></entry></feed>
