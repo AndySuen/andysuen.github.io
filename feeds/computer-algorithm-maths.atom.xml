@@ -44,9 +44,9 @@
 &lt;p&gt;化简得 &lt;code&gt;s = 2(n - 2^( floor(log(n)) )) + 1&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id="4"&gt;4. 解的二进制表示&lt;a class="headerlink" href="#4" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;上述结果用二进制表示更加简洁，&lt;/p&gt;
-&lt;p&gt;由于 n = b&lt;sub&gt;m&lt;/sub&gt;b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;...b&lt;sub&gt;1&lt;/sub&gt; ，&lt;/p&gt;
-&lt;p&gt;则 k = b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;…b&lt;sub&gt;1&lt;/sub&gt;，&lt;/p&gt;
-&lt;p&gt;幸存者编号 s = 2k + 1 = b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;…b&lt;sub&gt;1&lt;/sub&gt;1 = b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;...b&lt;sub&gt;1&lt;/sub&gt;b&lt;sub&gt;m&lt;/sub&gt;。&lt;/p&gt;
+&lt;p&gt;由于 n = b&lt;sub&gt;m&lt;/sub&gt;b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;...b&lt;sub&gt;0&lt;/sub&gt; ，&lt;/p&gt;
+&lt;p&gt;则 k = b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;…b&lt;sub&gt;0&lt;/sub&gt;，&lt;/p&gt;
+&lt;p&gt;幸存者编号 s = 2k + 1 = b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;…b&lt;sub&gt;0&lt;/sub&gt;1 = b&lt;sub&gt;m-1&lt;/sub&gt;b&lt;sub&gt;m-2&lt;/sub&gt;...b&lt;sub&gt;0&lt;/sub&gt;b&lt;sub&gt;m&lt;/sub&gt;。&lt;/p&gt;
 &lt;p&gt;即将 n 二进制中首位移到末尾即可。&lt;/p&gt;
 &lt;h2 id="5"&gt;5. 新的问题&lt;a class="headerlink" href="#5" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;ol&gt;
