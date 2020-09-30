@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en" itemscope itemtype="http://schema.org/Person">
+<head>
+            <meta charset="utf-8">
+        <!-- Site Meta Data -->
+        <title>Redis 八股文</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Andy">
+
+        <link rel="shortcut icon" href="/favicon.ico">
+
+        <!-- schema.org -->
+        <meta itemprop="name" content="Andy's blog">
+        <meta itemprop="image" content="">
+        <meta itemprop="description" content="">
+
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+        <!-- Style Meta Data -->
+        <link rel="stylesheet" href="https://bingfei.me/theme/css/style.css" type="text/css"/>
+        <link rel="stylesheet" href="https://bingfei.me/theme/css/pygments.css" type="text/css"/>
+
+        <!-- Feed Meta Data -->
+            <link href="https://bingfei.me/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+                  title="Andy's blog ATOM Feed"/>
+
+        <!-- Twitter Feed -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="ibingfei">
+        <meta name="twitter:image" content="">
+
+    <meta name="twitter:creator" content="ibingfei">
+    <meta name="twitter:url" content="https://bingfei.me/blog/2020/redis-eight-legged-essay">
+    <meta name="twitter:title" content="Andy's blog ~ Redis 八股文">
+    <meta name="twitter:description" content="简单总结 Redis 的应用，数据结构的底层实现方式，过期删除/淘汰策略，持久化，哨兵和集群的核心原理。">
+
+    <!-- Facebook Meta Data -->
+    <meta property="og:title" content="Andy's blog ~ Redis 八股文"/>
+    <meta property="og:description" content="简单总结 Redis 的应用，数据结构的底层实现方式，过期删除/淘汰策略，持久化，哨兵和集群的核心原理。"/>
+    <meta property="og:image" content=""/>
+</head>
+
+<body>
+<!-- Sidebar -->
+<aside>
+    <!--<center><a href="https://bingfei.me"><img id="avatar" src=""></a></center>-->
+    <h1>Andy's blog</h1>
+        <p>Web developer</p>
+    <br>
+
+
+    <nav class="nav">
+        <ul class="list-bare">
+
+                <li><a class="nav__link" href="/">Home</a></li>
+                <li><a class="nav__link" href="/archives.html">Archive</a></li>
+
+                <li><a class="nav__link" href="https://bingfei.me/pages/about.html">About</a></li>
+
+        </ul>
+    </nav>
+
+    <p class="social">
+                <a href="https://twitter.com/ibingfei" target="_blank"><img
+                        src="https://bingfei.me/theme/images/icons/twitter.png"></a>
+                <a href="https://github.com/andysuen" target="_blank"><img
+                        src="https://bingfei.me/theme/images/icons/github.png"></a>
+            <a href="https://bingfei.me/feeds/all.atom.xml" rel="alternate">
+                <img src="https://bingfei.me/theme/images/icons/rss.png"></a>
+    </p>
+
+
+
+</aside>
+
+<!-- Content -->
+<article>
+    <section id="content">
+        <article>
+            <h1 class="post_title post_detail">
+                <a href="https://bingfei.me/blog/2020/redis-eight-legged-essay" rel="bookmark" title="Permalink to Redis 八股文">Redis 八股文</a>
+            </h1>
+            <div class="entry-content blog-post">
+                <div class="toc">
+<ul>
+<li><a href="#0-what-is-redis">0. What is Redis</a></li>
+<li><a href="#1">1. 问题列表</a></li>
+<li><a href="#2">2. 回答列表</a><ul>
+<li><a href="#redis-1">Redis 八股文 应用篇 1</a></li>
+<li><a href="#redis-1_1">Redis 八股文 原理篇 1</a></li>
+<li><a href="#redis-2">Redis 八股文 原理篇 2</a></li>
+<li><a href="#redis-3">Redis 八股文 原理篇 3</a></li>
+<li><a href="#redis-4">Redis 八股文 原理篇 4</a></li>
+</ul>
+</li>
+<li><a href="#_1">附</a><ul>
+<li><a href="#1-redis">1. Redis 缓存三大问题</a><ul>
+<li><a href="#_2">缓存穿透</a></li>
+<li><a href="#_3">缓存击穿</a></li>
+<li><a href="#_4">缓存雪崩</a></li>
+</ul>
+</li>
+<li><a href="#2_1">2. 淘汰策略</a></li>
+<li><a href="#3-hyperloglog">3. Hyperloglog</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="0-what-is-redis">0. What is Redis<a class="headerlink" href="#0-what-is-redis" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>What makes Redis special? What types of problems does it solve? What should developers watch out for when using it? Before we can answer any of these questions, we need to understand what Redis is.</p>
+<p>Redis is often described as an in-memory persistent key-value store. I don’t think that’s an accurate description. Redis does hold all the data in memory (more on this in a bit), and it does write that out to disk for persistence, but it’s much more than a simple key-value store. It’s important to step beyond this misconception otherwise your perspective of Redis and the problems it solves will be too narrow.</p>
+<p>The reality is that Redis exposes five different data structures, only one of which is a typical key-value structure. Understanding these five data structures, how they work, what methods they expose and what you can model with them is the key to understanding Redis.</p>
+<p>—— <em>K. Seguin, The Little Redis Book</em></p>
+</blockquote>
+<p>本文是对 twitter <a href="https://twitter.com/Tisoga">@Tisoga</a> 所提出的一系列<a href="https://twitter.com/Tisoga/status/1300717035509354496">关于 Redis 的问题</a>的简单回答。如果你对下列问题或概念不甚熟悉，请阅读相关书籍。本文主要参考了下列四本书：</p>
+<ol>
+<li><a href="http://openmymind.net/2012/1/23/The-Little-Redis-Book/">The Little Redis Book</a> - K. Seguin (PDF, Epub) (推荐指数★★★★★，入门级，只有30页，简洁而富有启发性)</li>
+<li><a href="https://book.douban.com/subject/26612779/">Redis实战</a> - Josiah L. Carlson (★★★☆☆，入门级，实用，不够深入)</li>
+<li><a href="https://book.douban.com/subject/30386804/">Redis 深度历险：核心原理与应用实践</a> - 钱文品 (★★★★☆，基础级，应用+原理，通俗易懂)</li>
+<li><a href="https://book.douban.com/subject/25900156/">Redis设计与实现</a> - 黄健宏 (★★★★★，进阶级，结合源码分析底层实现和原理，深入浅出)</li>
+</ol>
+<h2 id="1">1. 问题列表<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><a href="https://twitter.com/Tisoga/status/1300717035509354496">twitter 问题原文</a> / <a href="https://threadreaderapp.com/thread/1300717035509354496">原文 thread 问题汇总</a> by twitter <a href="https://twitter.com/Tisoga">@Tisoga</a></p>
+<blockquote>
+<p><strong>Redis 八股文 应用篇 1</strong></p>
+<ul>
+<li>Redis 有哪些数据结构，分别有什么使用场景？</li>
+<li>Redis ZSET 相同 score 如何排序？</li>
+<li>在爬虫中，如何使用 Redis 做 URL 去重？</li>
+<li>Redis 是否支持事务？</li>
+<li>Redis 中的 WATCH 命令是做什么的？</li>
+<li>Redis 是如何保证高可用的？</li>
+<li>如何使用 Redis 来实现分布式锁？Redlock？</li>
+</ul>
+<p><strong>Redis 八股文 原理篇 1</strong></p>
+<ul>
+<li>Redis 是单线程还是多线程？为什么这么设计？</li>
+<li>Redis 中的字符串对象和 C 语言中的字符串有什么区别？</li>
+<li>Redis 中是如何实现链表的？</li>
+<li>Redis 中是如何实现字典的？</li>
+<li>Redis 中的字典是如何进行动态扩容的？</li>
+<li>Redis 中的跳表是如何实现的？</li>
+</ul>
+<p><strong>Redis 八股文 原理篇 2</strong></p>
+<ul>
+<li>STR/LIST/HASH/SET/ZSET 底层都是使用什么数据结构实现的？</li>
+<li>ZSET 什么时候使用 Ziplist 实现，什么时候使用 Skiplist 实现？</li>
+<li>ZSET 为什么不用 BST/AVL/B-Tree/红黑树，而使用跳表？</li>
+<li>Redis 的过期键删除策略是什么？</li>
+<li>Redis 的主从服务器是如何同步过期键的？</li>
+</ul>
+<p><strong>Redis 八股文 原理篇 3</strong></p>
+<ul>
+<li>AOF 和 RDB 持久化有什么区别？</li>
+<li>Redis 的主从是如何进行同步的？</li>
+<li>如何解决长时间使用后 AOF 文件过大的问题？</li>
+<li>Redis 的哨兵机制是如何实现的？</li>
+<li>Redis 的集群方案有哪些？</li>
+</ul>
+<p><strong>Redis 八股文 原理篇 4</strong></p>
+<ul>
+<li>Redis 的整体架构是什么样的，从客户端发出命令，到客户端接收到结果，这整个流程是什么样的？</li>
+<li>Redis 是如何实现 LRU 机制的？</li>
+<li>Redis 是如何实现 LFU 机制的？
+</li>
+</ul>
+</blockquote>
+<h2 id="2">2. 回答列表<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<h3 id="redis-1">Redis 八股文 应用篇 1<a class="headerlink" href="#redis-1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Redis 有哪些数据结构，分别有什么使用场景？</p>
+<p>A: Str, List, Hash, Set, Zset, Bitmap, Hyperloglog, Geo, Stream</p>
+</li>
+<li>
+<p>Redis ZSET 相同 score 如何排序？</p>
+<p>A: 相同 score 先插入的等效为较小。</p>
+</li>
+<li>
+<p>在爬虫中，如何使用 Redis 做 URL 去重？</p>
+<p>A: 使用 Set/Bloom filter。</p>
+</li>
+<li>
+<p>Redis 是否支持事务？</p>
+<p>A: 有限支持（不支持回滚）。Redis事务总是满足原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation），持久化模式下有限支持持久性（Durability）。</p>
+</li>
+<li>
+<p>Redis 中的 WATCH 命令是做什么的？</p>
+<p>A: WATCH 是一个乐观锁（optimistic locking），在 <code>EXEC</code> 执行之前，监视任意数量的 key，并在 <code>EXEC</code> 执行时，检查这些 key 是否被修改，是则拒绝执行事务，事务执行失败，空回复。</p>
+<p>实现：Redis 维护一个 <code>watched_keys</code> 字典（值为 <code>client_id</code> 链表），修改数据库时检查这个字典，如果发现 key 在其中，则通过 <code>touchWatchKey</code> 函数打开对应 client 的 <code>REDIS_DIRTY_CAS</code> 标志。</p>
+</li>
+<li>
+<p>Redis 是如何保证高可用的？</p>
+<p>A: 主从（提高读）/哨兵（提供故障转移）/集群（提高读写，提供故障转移）。</p>
+</li>
+<li>
+<p>如何使用 Redis 来实现分布式锁？Redlock？</p>
+<p>A: 分布式锁：</p>
+<ul>
+<li>加锁：<code>SET my_key my_random_value NX PX expires_ms</code></li>
+<li>拥有锁：<code>GET my_key == my_random_value?</code></li>
+<li>释放锁：<code>if 拥有锁: DEL my_key</code></li>
+</ul>
+<p>Redlock: 设置一个获取锁的 <code>timeout</code> 常量，对多个节点进行加锁操作，如果在 <code>timeout</code> 内获得 <code>N/2+1</code> 个锁，则成功；否则失败，释放所有锁。</p>
+</li>
+</ol>
+<h3 id="redis-1_1">Redis 八股文 原理篇 1<a class="headerlink" href="#redis-1_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Redis 是单线程还是多线程？为什么这么设计？</p>
+<p>A: Redis 在以前的版本中是单线程的，而在 6.0 后对 Redis 的 io 模型做了优化，io Thread 为多线程的，但是 worker Thread 仍然是单线程。</p>
+</li>
+<li>
+<p>Redis 中的字符串对象和 C 语言中的字符串有什么区别？</p>
+<p>A: Redis 字符串使用了自定义的结构 (Simple dynamic string, SDS)，包含了字符串长度 <code>len</code>，未分配长度 <code>free</code>，字符数组 <code>buf</code>；</p>
+<p>优点：常数复杂度获取字符串长度，内存安全，减少内存重分配，二进制安全，兼容部分C字符串函数。
+还有两种数据结构：<code>int/embstr</code> 分别用来存储整数和短字符串（≤32Byte）。</p>
+</li>
+<li>
+<p>Redis 中是如何实现链表的？</p>
+<p>A: 双向链表，由链表 <code>list</code> / 节点 <code>listNode</code> 组成。</p>
+<ul>
+<li><code>list</code> 包含：头/尾节点指针、表长度、 <code>dup/free/comp</code> 函数。</li>
+<li><code>listNode</code> 包含数据指针和 <code>prev/next</code> 指针。头尾节点外侧指向 <code>null</code>。</li>
+</ul>
+</li>
+<li>
+<p>Redis 中是如何实现字典的？</p>
+<p>A: 哈希表，由字典 <code>dict</code> / 哈希表 <code>dictht</code> / 节点数组 <code>dictEntry[]</code> / 节点 <code>dictEntry</code> 组成。</p>
+<ul>
+<li><code>dictht</code> 包含：<code>dictEntry</code> 数组指针，表长 <code>size</code>，掩码 <code>sizemask</code>，已使用 <code>used</code>。</li>
+<li><code>dictEntry</code> 保存键值对和 <code>next</code> 指针。</li>
+</ul>
+</li>
+<li>
+<p>Redis 中的字典是如何进行动态扩容的？</p>
+<p>A: <code>dict</code> 包含两个 <code>ht</code>，<code>ht[0]</code> 存放哈希节点，<code>ht[1]</code> 作为 rehash 的过度。</p>
+<ul>
+<li>扩容/缩容：<code>ht[1]的size=2^n</code>，且 <code>n = ceil(log2(ht[0]的used))</code>。</li>
+<li>节点的 <code>idx = hash(key) &amp; sizemask</code></li>
+<li>渐进式rehash：逐步分批将 <code>ht[0]</code> 的节点转移到<code>ht[1]</code>。此过程中新数据只插入 <code>ht[1]</code>。</li>
+<li>rehash完成后，使用 <code>ht[1]</code> 替换 <code>ht[0]</code>，生成新的空 <code>ht[1]</code>。</li>
+</ul>
+</li>
+<li>
+<p>Redis 中的跳表是如何实现的？</p>
+<p>A: 由跳表 <code>zskiplist</code> / 节点 <code>zskiplistNode</code> 组成。</p>
+<ul>
+<li><code>zskiplist</code> 保存了头尾节点指针、使用层数 <code>level</code>、表长 <code>length</code>。</li>
+<li><code>zskiplistNode</code> 保存了层 <code>level</code>、后退指针 <code>BW</code>、分值 <code>score</code>、成员对象 <code>obj</code>。</li>
+<li>层的跨度 <code>level[i].span</code> 表示两个节点之间的距离。</li>
+</ul>
+</li>
+</ol>
+<h3 id="redis-2">Redis 八股文 原理篇 2<a class="headerlink" href="#redis-2" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>STR/LIST/HASH/SET/ZSET 底层都是使用什么数据结构实现的？</p>
+<p>A:</p>
+<ul>
+<li><code>STR</code>: <code>int(long)/embstr(≤32Byte)/sds</code></li>
+<li><code>LIST</code>: <code>ziplist(≤64 Byte, ≤512 items)/linklist/quicklist(≤8k Byte)</code></li>
+<li><code>HASH</code>: <code>ziplist(≤64 Byte, ≤512 items)/hashtable</code></li>
+<li><code>SET</code>: <code>intset(int, ≤512 items)/hashtable</code></li>
+<li><code>ZSET</code>: <code>ziplist(≤64 Byte, ≤128 items)/skiplist&amp;dict</code></li>
+<li>查看编码方式：<code>OBJECT ENCODING key</code></li>
+</ul>
+</li>
+<li>
+<p>ZSET 什么时候使用 Ziplist 实现，什么时候使用 Skiplist 实现？</p>
+<p>A: <code>ziplist(≤64 Byte, ≤128 items)/skiplist&amp;dict</code></p>
+</li>
+<li>
+<p>ZSET 为什么不用 BST/AVL/B-Tree/红黑树，而使用跳表？</p>
+<p>A: 查询复杂度相当，实现简单，支持顺序访问，提升区间读取效率。</p>
+</li>
+<li>
+<p>Redis 的过期键删除策略是什么？</p>
+<p>A:</p>
+<ul>
+<li>定时删除：对每个非永久的 key 设置一个 timer，到期启动删除。内存友好，CPU 不友好。</li>
+<li>惰性删除：访问时检查过期删除。内存不友好，CPU 友好。</li>
+<li>定期删除：固定时间间隔（<code>0.1s</code>）分批（随机采样<code>20</code>个）删除过期的 key （如果过期比例超过1/4，则重复此操作；扫描上限25ms）。平衡。</li>
+</ul>
+<p>Redis 使用后两者。</p>
+</li>
+<li>
+<p>Redis 的主从服务器是如何同步过期键的？</p>
+<p>A: 从服务器即使发现 key 过期也不删除，并供客户端查询其值。直到主服务器删除一个过期 key 后，向所有从服务器发送一条 <code>DEL</code> 命令，显式地删除该过期 key。由此保证主从一致。</p>
+</li>
+</ol>
+<h3 id="redis-3">Redis 八股文 原理篇 3<a class="headerlink" href="#redis-3" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>AOF 和 RDB 持久化有什么区别？</p>
+<p>A: RDB 是全量快照，不含过期 key。AOF 是将每条命令追加到文件中来记录过程，可以通过 <code>BGREWRITEAOF</code> 避免空间浪费。</p>
+</li>
+<li>
+<p>Redis 的主从是如何进行同步的？</p>
+<p>A:</p>
+<ul>
+<li>通过 <code>sync</code> 命令进行全量同步（通过发送 RDB 文件和缓冲区命令实现）（V2.8已弃用）。</li>
+<li>通过 <code>psync &lt;runid&gt; &lt;offset&gt;</code> 进行全量/部分同步，通过 command propagate 进行命令传播。</li>
+<li>部分同步实现：通过主/从服务器的复制偏移量 replication offset，主服务器的复制积压缓冲区 replication backlog，服务器的运行 ID 来实现。</li>
+<li>完整步骤：<ol>
+<li>slave 设置 master 的 IP/port；</li>
+<li>建立 socket 连接；</li>
+<li>Ping/Pong 测试连接；</li>
+<li>Auth 验证身份；</li>
+<li>slave 发送端口信息给 master；</li>
+<li>同步；</li>
+<li>命令传播。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>如何解决长时间使用后 AOF 文件过大的问题？</p>
+<p>A: AOF 重写。通过将现存的数据传给添加命令来实现，如果 key 内容过大，则按 64 items/条命令分割。</p>
+</li>
+<li>
+<p>Redis 的哨兵机制是如何实现的？</p>
+<p>A: 哨兵通过 <code>INFO</code> 命令获取主从实例网络结构，通过订阅 <code>__sentinel__:hello</code> 频道获取哨兵网络结构。哨兵与主从实例之间建立命令和订阅连接，哨兵与哨兵之间建立命令连接。哨兵通过 <code>PING</code> 判断节点是否在线，主观判断掉线后询问其他哨兵是否掉线来判断是否客观掉线，票数足够（<code>≥N/2+1</code>, 基于 Raft leader election 方法实现）则视为客观掉线，发起主服务器故障转移。</p>
+</li>
+<li>
+<p>Redis 的集群方案有哪些？</p>
+<p>A:</p>
+<ol>
+<li>
+<p>Codis。豌豆荚开发。中心化，代理模式。使用 Zookeeper/etcd 处理分布式问题（存储槽位配置等）。实现简单。提供 Dashboard 功能，Codis-fe 可以同时管理多个集群。不支持事务， <code>mget</code> 较慢，不支持 <code>rename</code>。</p>
+</li>
+<li>
+<p>RedisCluster。Redis 官方实现。去中心化，对等网络。槽位配置存储在每个节点中。支持 hashtag 强制槽位。不支持事务，<code>mget</code> 较慢，<code>rename</code> 不是原子操作。</p>
+</li>
+</ol>
+<p>RedisCluster 实现：</p>
+<ul>
+<li>通过 <code>MEET</code> 命令将节点加入集群。</li>
+<li>通过 <code>cluster addslots</code> 进行槽指派。每个节点记录了16384个槽分别指派给了哪个节点（通过 <code>clusterState.slots</code> 数组记录 <code>slot-&gt;node</code>, 通过 <code>slots_to_keys</code> 跳表记录 <code>slots-&gt;keys</code>）。</li>
+<li>使用 <code>redis-trib</code> 对集群重分片（通过 <code>cluster setslot importing/migrating、cluster getkeysinslot、migrate、cluster setslot node</code> 命令实现）。</li>
+<li>集群可以在检测主节点下线后指派其从节点之一代替之（类似哨兵投票）。</li>
+<li>集群通过收发消息来进行通信，类型有 <code>MEET/PING/PONG/PUBLISH/FAIL</code> 等。</li>
+</ul>
+</li>
+</ol>
+<h3 id="redis-4">Redis 八股文 原理篇 4<a class="headerlink" href="#redis-4" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Redis 的整体架构是什么样的，从客户端发出命令，到客户端接收到结果，这整个流程是什么样的？</p>
+<p>A: 单机结构/主从结构/哨兵结构/集群结构。
+流程：
+1. 客户端发出命令
+2. 服务端读取命令请求，并分析出命令参数
+3. 命令执行器根据参数查找命令等实现函数，校验参数、认证等信息，然后执行实现函数并得出命令回复
+4. 服务端将命令回复返回给客户端</p>
+</li>
+<li>
+<p>Redis 是如何实现 LRU 机制的？</p>
+<p>A: Redis 使用了近似 LRU 算法，内存超过限制后随机采样5个key，淘汰掉最旧的，留下来的 key 作为淘汰池供下一次采样比较。</p>
+</li>
+<li>
+<p>Redis 是如何实现 LFU 机制的？</p>
+<p>A: Redis 使用了近似 LFU 算法，使用 LRU 时间戳后8位存储访问系数（对数），并设置每分钟减一，来避免旧热点驻留。内存超过限制后随机采样5个key，淘汰掉访问系数最小的，留下来的 key 作为淘汰池供下一次采样比较。</p>
+</li>
+</ol>
+<h2 id="_1">附<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="1-redis">1. Redis 缓存三大问题<a class="headerlink" href="#1-redis" title="Permanent link">&para;</a></h3>
+<h4 id="_2">缓存穿透<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<p>缓存穿透是指查询一条数据库和缓存都没有的一条数据，就会一直查询数据库，对数据库的访问压力就会增大，缓存穿透的解决方案，有以下两种：</p>
+<ol>
+<li>缓存空对象：代码维护较简单，但是效果不好。（空间占用高，一个解决的办法就是设置空对象的较短的过期时间）</li>
+<li>布隆过滤器：代码维护复杂，效果很好。</li>
+</ol>
+<h4 id="_3">缓存击穿<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<p>缓存击穿是指一个 key 非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个 key 在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库，瞬间对数据库的访问压力增大。
+缓存击穿这里强调的是并发，造成缓存击穿的原因有以下两个：</p>
+<ol>
+<li>该数据没有人查询过 ，第一次就大并发的访问。（冷门数据）</li>
+<li>添加到了缓存，Reids 有设置数据失效的时间 ，这条数据刚好失效，大并发访问（热点数据）</li>
+</ol>
+<p>对于缓存击穿的解决方案就是加锁。在查询缓存的时候和查询数据库的过程加锁，只能第一个进来的请求进行执行，当第一个请求把该数据放进缓存中，接下来的访问就会直接集中缓存，防止了缓存击穿。</p>
+<h4 id="_4">缓存雪崩<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<p>缓存雪崩是指在某一个时间段，缓存集中过期失效。此刻无数的请求直接绕开缓存，直接请求数据库。
+造成缓存雪崩的原因，有以下两种：</p>
+<ol>
+<li>Reids 宕机</li>
+<li>大部分数据失效</li>
+</ol>
+<p>对于缓存雪崩的解决方案有以下两种：</p>
+<ol>
+<li>搭建高可用的集群，防止单机的 Redis 宕机。</li>
+<li>设置不同的过期时间，防止同一时间内大量的 key 失效。</li>
+<li>缓存预热，避免系统启动初期大量缓存miss。</li>
+</ol>
+<h3 id="2_1">2. 淘汰策略<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<p>Redis 提供了「8种的淘汰策略」</p>
+<ol>
+<li>noeviction (默认策略)</li>
+<li>allkeys-lru</li>
+<li>volatile-lru</li>
+<li>allkeys-random</li>
+<li>volatile-random</li>
+<li>volatile-ttl</li>
+<li>volatile-lfu</li>
+<li>allkeys-lfu</li>
+</ol>
+<p>LRU (Least Recently Used)：Redis 为每个key中额外的增加一个内存空间用于存储每个key的时间，大小是3字节。</p>
+<h3 id="3-hyperloglog">3. Hyperloglog<a class="headerlink" href="#3-hyperloglog" title="Permanent link">&para;</a></h3>
+<p><a href="http://blog.notdot.net/2012/09/Dam-Cool-Algorithms-Cardinality-Estimation">Damn Cool Algorithms: Cardinality Estimation - Nick's Blog</a></p>
+<p>这篇讲解的通熟易懂，感兴趣的不要错过。</p>
+            </div>
+            <div class="post_list">
+                <span>By </span>
+                <a href="https://bingfei.me/author/andy.html">@Andy</a>
+                <span> in </span>
+                <span class="post_category">
+                    <a href="https://bingfei.me/category/database.html" rel="bookmark" title="Permalink to database">[ database ]</a>
+                </span>
+                <span class="post_date">Wed 30 September 2020</span>
+                <div><span>Tags: </span>
+                            <span><a href="https://bingfei.me/tag/computer.html">#computer </a></span>
+                            <span><a href="https://bingfei.me/tag/algorithm.html">#algorithm </a></span>
+                            <span><a href="https://bingfei.me/tag/database.html">#database </a></span>
+                </div>
+
+                <div class="entry-social">
+                    <span>Share: </span>
+
+                    <span class="mail icon">
+                        <a href="mailto:?subject=Redis 八股文&amp;body=[Redis 八股文] by Andy. https://bingfei.me/blog/2020/redis-eight-legged-essay" title="Share by Email" target="_blank">
+                            <img src="https://bingfei.me/theme/images/icons/mail-s.png">
+                        </a>
+                    </span>
+
+                    <span class="twitter icon">
+                        <a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=https://bingfei.me/blog/2020/redis-eight-legged-essay&text=Redis 八股文&via=ibingfei">
+                            <img src="https://bingfei.me/theme/images/icons/twitter-s.png">
+                        </a>
+                    </span>
+
+                    <span class="facebook icon">
+                        <a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=https://bingfei.me/blog/2020/redis-eight-legged-essay&t=Redis 八股文">
+                            <img src="https://bingfei.me/theme/images/icons/facebook-s.png">
+                        </a>
+                    </span>
+
+                    <span class="linkedin icon">
+                        <a target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https://bingfei.me/blog/2020/redis-eight-legged-essay&title=Redis 八股文" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;">
+                            <img src="https://bingfei.me/theme/images/icons/linkedin-s.png">
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </article>
+    </section>
+</article>
+
+<!-- Footer -->
+    <footer>
+        <p>
+            Powered by <a target="_blank" href="https://blog.getpelican.com/">Pelican</a><!-- ,
+            which takes great advantage of <a href="http://python.org">Python</a> -->.
+            Theme <a target="_blank" href="https://github.com/parbhat/pelican-blue">Pelican-Blue</a><!--  by <a
+                href="https://parbhatpuri.com/">@parbhat</a> -->.
+        </p>
+    </footer>
+
+
+</body>
+</html>
