@@ -91,7 +91,7 @@
 <p>现在给定人数 n、起点 1、方向顺时针、要跳过的数字 1，求应该选择初始圆圈中的什么位置以避免被处决？</p>
 <h2 id="2">2. 模拟筛选的过程<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
 <p>最简单的解法，即按问题的描述直接翻译成程序求解。使用数组或单向循环链表来模拟筛选的过程：</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">josephus</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">josephus</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="n">circle</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># 使用数组</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -99,8 +99,7 @@
         <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span>
         <span class="n">n</span> <span class="o">-=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">circle</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>有没有更简单的解法呢？</p>
 <p>有。</p>

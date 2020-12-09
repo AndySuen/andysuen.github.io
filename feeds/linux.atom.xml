@@ -7,37 +7,33 @@
 &lt;p&gt;正好抽屉里还有个 24 小时运行的树莓派，做局域网 HTTP 代理服务器最合适不过了。shadowsocks 是最流行的代理方式，但它的官方客户端只支持 socks5 协议的流量，因此我们还需要一个将 HTTP 流量转换为 socks5 流量的工具，&lt;a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)"&gt;privoxy&lt;/a&gt; 可以做到。&lt;/p&gt;
 &lt;h2 id="2-shadowsocks"&gt;2. 给树莓派安装 shadowsocks&lt;a class="headerlink" href="#2-shadowsocks" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;首先，安装 &lt;a href="https://github.com/shadowsocks/shadowsocks-libev"&gt;shadowsocks-libev&lt;/a&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get update
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo apt-get update
 $ sudo apt-get install shadowsocks-libev
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;配置节点信息：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo vim /etc/shadowsocks-libev/config.json
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo vim /etc/shadowsocks-libev/config.json
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;文件格式如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{
-    &amp;quot;server&amp;quot;:&amp;quot;REMOTE-SERVER-IP-OR-DOMAIN&amp;quot;,
-    &amp;quot;server_port&amp;quot;:&amp;quot;REMOTE-PORT&amp;quot;,
-    &amp;quot;local_address&amp;quot;:&amp;quot;127.0.0.1&amp;quot;,
-    &amp;quot;local_port&amp;quot;:1080,
-    &amp;quot;password&amp;quot;:&amp;quot;YOUR-PASSWORD&amp;quot;,
-    &amp;quot;method&amp;quot;:&amp;quot;YOUR-METHOD&amp;quot;
-}
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;{&lt;/span&gt;
+&lt;span class="err"&gt;    &amp;quot;server&amp;quot;:&amp;quot;REMOTE-SERVER-IP-OR-DOMAIN&amp;quot;,&lt;/span&gt;
+&lt;span class="err"&gt;    &amp;quot;server_port&amp;quot;:&amp;quot;REMOTE-PORT&amp;quot;,&lt;/span&gt;
+&lt;span class="err"&gt;    &amp;quot;local_address&amp;quot;:&amp;quot;127.0.0.1&amp;quot;,&lt;/span&gt;
+&lt;span class="err"&gt;    &amp;quot;local_port&amp;quot;:1080,&lt;/span&gt;
+&lt;span class="err"&gt;    &amp;quot;password&amp;quot;:&amp;quot;YOUR-PASSWORD&amp;quot;,&lt;/span&gt;
+&lt;span class="err"&gt;    &amp;quot;method&amp;quot;:&amp;quot;YOUR-METHOD&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;这时运行 &lt;code&gt;ss-local&lt;/code&gt; 命令，你就可以在的前台看到节点连接情况。但当你关闭 SSH 会话时，这个进程也会停止，因此需要把它设为服务运行。&lt;/p&gt;
 &lt;h3 id="ss-local"&gt;设置 &lt;code&gt;ss-local&lt;/code&gt; 服务&lt;a class="headerlink" href="#ss-local" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;编辑 &lt;code&gt;ss-local&lt;/code&gt; 服务的配置文件 &lt;code&gt;/lib/systemd/system/ss-local.service&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo vim /lib/systemd/system/ss-local.service
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo vim /lib/systemd/system/ss-local.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;文件内容如下（格式参考了 &lt;code&gt;/lib/systemd/system/shadowsocks-libev.service&lt;/code&gt;）：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[Unit]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;[Unit]&lt;/span&gt;
 &lt;span class="na"&gt;Description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Shadowsocks-libev Default Client Service&lt;/span&gt;
 &lt;span class="na"&gt;Documentation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;man:ss-local&lt;/span&gt;
 &lt;span class="na"&gt;After&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;network.target&lt;/span&gt;
@@ -52,55 +48,46 @@ $ sudo apt-get install shadowsocks-libev
 
 &lt;span class="k"&gt;[Install]&lt;/span&gt;
 &lt;span class="na"&gt;WantedBy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;multi-user.target&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;启用 &lt;code&gt;ss-local.service&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo systemctl start ss-local.service  &lt;span class="c1"&gt;# 启动服务&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo systemctl start ss-local.service  &lt;span class="c1"&gt;# 启动服务&lt;/span&gt;
 $ sudo systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; ss-local.service &lt;span class="c1"&gt;# 设置开机自启动&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;现在 &lt;code&gt;ss-local.service&lt;/code&gt; 服务已经成功运行了，测试一下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl --socks5 localhost:1080 ipconfig.io
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ curl --socks5 localhost:1080 ipconfig.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;你应该看到输出了远程 ss 代理节点的 IP 地址。&lt;/p&gt;
 &lt;h2 id="3-privoxy-http"&gt;3. 安装 privoxy 转发 HTTP 流量&lt;a class="headerlink" href="#3-privoxy-http" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)"&gt;privoxy&lt;/a&gt; 是一个 HTTP 协议过滤代理软件，安装：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo apt-get install privoxy
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo apt-get install privoxy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;修改配置文件 &lt;code&gt;/etc/privoxy/config&lt;/code&gt;：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo vim /etc/privoxy/config
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo vim /etc/privoxy/config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;在文件底部添加：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号
-listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号&lt;/span&gt;
+&lt;span class="err"&gt;listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;code&gt;privoxy.service&lt;/code&gt; 服务在安装时已经启用，可以通过 &lt;code&gt;systemctl status privoxy.service&lt;/code&gt; 来确认，现在重启该服务：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo systemctl restart privoxy.service
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo systemctl restart privoxy.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;现在 &lt;code&gt;privoxy.service&lt;/code&gt; 服务已经成功运行了，测试一下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl -x, --proxy localhost:8010 ipconfig.io
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ curl -x, --proxy localhost:8010 ipconfig.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;你应该看到输出了远程 ss 代理节点的 IP 地址。&lt;/p&gt;
 &lt;h2 id="4"&gt;4. 最后一步&lt;a class="headerlink" href="#4" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;树莓派的代理服务已经成功运行，现在还需要在路由器的设置里面把树莓派的 IP 固定下来，以免每次树莓派切换 IP 还需要更改相应的 Switch 设置。&lt;/p&gt;
 &lt;p&gt;如果你设置的静态 IP 和当前不一致，需要重启一下树莓派的网络服务：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo ifconfig wlan0 down&lt;span class="p"&gt;;&lt;/span&gt; sleep &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; sudo ifconfig wlan0 up
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo ifconfig wlan0 down&lt;span class="p"&gt;;&lt;/span&gt; sleep &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; sudo ifconfig wlan0 up
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;然后在 Switch 的网络接入点配置里添加代理的 IP （树莓派的静态 IP）和端口号 8010，保存并重新连接此接入点，提示连接成功，即可开始体验 Tetris® 99 了。&lt;/p&gt;
 &lt;p&gt;彩蛋：&lt;/p&gt;
@@ -122,15 +109,14 @@ listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 &lt;p&gt;Wi-Fi 默认状态也是关闭的，幸运的是我找到了这个&lt;a href="https://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address/37921#37921"&gt;帖子&lt;/a&gt;，里面介绍了在烧录系统后直接配置 Wi-Fi 的方法。&lt;/p&gt;
 &lt;p&gt;Raspbian 在启动时会检查 &lt;code&gt;/boot&lt;/code&gt; 目录下的 &lt;code&gt;wpa_supplicant.conf&lt;/code&gt; 文件并把它移动到 &lt;code&gt;/etc/wpa_supplicant/wpa_supplicant.conf&lt;/code&gt; （如果文件已存在则会被覆盖），可以在这里进行 Wi-Fi 连接的参数配置。&lt;/p&gt;
 &lt;p&gt;在 Raspbian 根目录下新建 &lt;code&gt;wpa_supplicant.conf&lt;/code&gt; 文件并添加进下面几行：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;ctrl_interface&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;DIR&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wpa_supplicant&lt;/span&gt; &lt;span class="k"&gt;GROUP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;netdev&lt;/span&gt;
+&lt;span class="n"&gt;update_config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
 
-network={
-    ssid=&amp;quot;SSID&amp;quot;
-    psk=&amp;quot;PASSWORD&amp;quot;
-}
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;ssid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;SSID&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;psk&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;PASSWORD&amp;quot;&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;然后，替换 &lt;code&gt;SSID&lt;/code&gt; 和 &lt;code&gt;PASSWORD&lt;/code&gt; 为你希望连接的 Wi-Fi 名称和密码。&lt;/p&gt;
 &lt;h2 id="4-wi-fi-ssh"&gt;4. 运行树莓派并通过 Wi-Fi 进行 SSH 登录&lt;a class="headerlink" href="#4-wi-fi-ssh" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;

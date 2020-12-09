@@ -89,37 +89,33 @@
 <p>正好抽屉里还有个 24 小时运行的树莓派，做局域网 HTTP 代理服务器最合适不过了。shadowsocks 是最流行的代理方式，但它的官方客户端只支持 socks5 协议的流量，因此我们还需要一个将 HTTP 流量转换为 socks5 流量的工具，<a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)">privoxy</a> 可以做到。</p>
 <h2 id="2-shadowsocks">2. 给树莓派安装 shadowsocks<a class="headerlink" href="#2-shadowsocks" title="Permanent link">&para;</a></h2>
 <p>首先，安装 <a href="https://github.com/shadowsocks/shadowsocks-libev">shadowsocks-libev</a>：</p>
-<div class="highlight"><pre><span></span>$ sudo apt-get update
+<div class="highlight"><pre><span></span><code>$ sudo apt-get update
 $ sudo apt-get install shadowsocks-libev
-</pre></div>
-
+</code></pre></div>
 
 <p>配置节点信息：</p>
-<div class="highlight"><pre><span></span>$ sudo vim /etc/shadowsocks-libev/config.json
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>$ sudo vim /etc/shadowsocks-libev/config.json
+</code></pre></div>
 
 <p>文件格式如下：</p>
-<div class="highlight"><pre><span></span>{
-    &quot;server&quot;:&quot;REMOTE-SERVER-IP-OR-DOMAIN&quot;,
-    &quot;server_port&quot;:&quot;REMOTE-PORT&quot;,
-    &quot;local_address&quot;:&quot;127.0.0.1&quot;,
-    &quot;local_port&quot;:1080,
-    &quot;password&quot;:&quot;YOUR-PASSWORD&quot;,
-    &quot;method&quot;:&quot;YOUR-METHOD&quot;
-}
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">{</span>
+<span class="err">    &quot;server&quot;:&quot;REMOTE-SERVER-IP-OR-DOMAIN&quot;,</span>
+<span class="err">    &quot;server_port&quot;:&quot;REMOTE-PORT&quot;,</span>
+<span class="err">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,</span>
+<span class="err">    &quot;local_port&quot;:1080,</span>
+<span class="err">    &quot;password&quot;:&quot;YOUR-PASSWORD&quot;,</span>
+<span class="err">    &quot;method&quot;:&quot;YOUR-METHOD&quot;</span>
+<span class="err">}</span>
+</code></pre></div>
 
 <p>这时运行 <code>ss-local</code> 命令，你就可以在的前台看到节点连接情况。但当你关闭 SSH 会话时，这个进程也会停止，因此需要把它设为服务运行。</p>
 <h3 id="ss-local">设置 <code>ss-local</code> 服务<a class="headerlink" href="#ss-local" title="Permanent link">&para;</a></h3>
 <p>编辑 <code>ss-local</code> 服务的配置文件 <code>/lib/systemd/system/ss-local.service</code>：</p>
-<div class="highlight"><pre><span></span>$ sudo vim /lib/systemd/system/ss-local.service
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>$ sudo vim /lib/systemd/system/ss-local.service
+</code></pre></div>
 
 <p>文件内容如下（格式参考了 <code>/lib/systemd/system/shadowsocks-libev.service</code>）：</p>
-<div class="highlight"><pre><span></span><span class="k">[Unit]</span>
+<div class="highlight"><pre><span></span><code><span class="k">[Unit]</span>
 <span class="na">Description</span><span class="o">=</span><span class="s">Shadowsocks-libev Default Client Service</span>
 <span class="na">Documentation</span><span class="o">=</span><span class="s">man:ss-local</span>
 <span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
@@ -134,55 +130,46 @@ $ sudo apt-get install shadowsocks-libev
 
 <span class="k">[Install]</span>
 <span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>启用 <code>ss-local.service</code>：</p>
-<div class="highlight"><pre><span></span>$ sudo systemctl start ss-local.service  <span class="c1"># 启动服务</span>
+<div class="highlight"><pre><span></span><code>$ sudo systemctl start ss-local.service  <span class="c1"># 启动服务</span>
 $ sudo systemctl <span class="nb">enable</span> ss-local.service <span class="c1"># 设置开机自启动</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>现在 <code>ss-local.service</code> 服务已经成功运行了，测试一下：</p>
-<div class="highlight"><pre><span></span>$ curl --socks5 localhost:1080 ipconfig.io
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>$ curl --socks5 localhost:1080 ipconfig.io
+</code></pre></div>
 
 <p>你应该看到输出了远程 ss 代理节点的 IP 地址。</p>
 <h2 id="3-privoxy-http">3. 安装 privoxy 转发 HTTP 流量<a class="headerlink" href="#3-privoxy-http" title="Permanent link">&para;</a></h2>
 <p><a href="https://wiki.archlinux.org/index.php/Privoxy_(简体中文)">privoxy</a> 是一个 HTTP 协议过滤代理软件，安装：</p>
-<div class="highlight"><pre><span></span>$ sudo apt-get install privoxy
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>$ sudo apt-get install privoxy
+</code></pre></div>
 
 <p>修改配置文件 <code>/etc/privoxy/config</code>：</p>
-<div class="highlight"><pre><span></span>$ sudo vim /etc/privoxy/config
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>$ sudo vim /etc/privoxy/config
+</code></pre></div>
 
 <p>在文件底部添加：</p>
-<div class="highlight"><pre><span></span>forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号
-listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号</span>
+<span class="err">listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口</span>
+</code></pre></div>
 
 <p><code>privoxy.service</code> 服务在安装时已经启用，可以通过 <code>systemctl status privoxy.service</code> 来确认，现在重启该服务：</p>
-<div class="highlight"><pre><span></span>$ sudo systemctl restart privoxy.service
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>$ sudo systemctl restart privoxy.service
+</code></pre></div>
 
 <p>现在 <code>privoxy.service</code> 服务已经成功运行了，测试一下：</p>
-<div class="highlight"><pre><span></span>$ curl -x, --proxy localhost:8010 ipconfig.io
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>$ curl -x, --proxy localhost:8010 ipconfig.io
+</code></pre></div>
 
 <p>你应该看到输出了远程 ss 代理节点的 IP 地址。</p>
 <h2 id="4">4. 最后一步<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
 <p>树莓派的代理服务已经成功运行，现在还需要在路由器的设置里面把树莓派的 IP 固定下来，以免每次树莓派切换 IP 还需要更改相应的 Switch 设置。</p>
 <p>如果你设置的静态 IP 和当前不一致，需要重启一下树莓派的网络服务：</p>
-<div class="highlight"><pre><span></span>$ sudo ifconfig wlan0 down<span class="p">;</span> sleep <span class="m">10</span><span class="p">;</span> sudo ifconfig wlan0 up
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>$ sudo ifconfig wlan0 down<span class="p">;</span> sleep <span class="m">10</span><span class="p">;</span> sudo ifconfig wlan0 up
+</code></pre></div>
 
 <p>然后在 Switch 的网络接入点配置里添加代理的 IP （树莓派的静态 IP）和端口号 8010，保存并重新连接此接入点，提示连接成功，即可开始体验 Tetris® 99 了。</p>
 <p>彩蛋：</p>
