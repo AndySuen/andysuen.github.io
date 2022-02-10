@@ -16,14 +16,14 @@ $ sudo apt-get install shadowsocks-libev
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;文件格式如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;{&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;server&amp;quot;:&amp;quot;REMOTE-SERVER-IP-OR-DOMAIN&amp;quot;,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;server_port&amp;quot;:&amp;quot;REMOTE-PORT&amp;quot;,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;local_address&amp;quot;:&amp;quot;127.0.0.1&amp;quot;,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;local_port&amp;quot;:1080,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;password&amp;quot;:&amp;quot;YOUR-PASSWORD&amp;quot;,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;method&amp;quot;:&amp;quot;YOUR-METHOD&amp;quot;&lt;/span&gt;
-&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;{
+    &amp;quot;server&amp;quot;:&amp;quot;REMOTE-SERVER-IP-OR-DOMAIN&amp;quot;,
+    &amp;quot;server_port&amp;quot;:&amp;quot;REMOTE-PORT&amp;quot;,
+    &amp;quot;local_address&amp;quot;:&amp;quot;127.0.0.1&amp;quot;,
+    &amp;quot;local_port&amp;quot;:1080,
+    &amp;quot;password&amp;quot;:&amp;quot;YOUR-PASSWORD&amp;quot;,
+    &amp;quot;method&amp;quot;:&amp;quot;YOUR-METHOD&amp;quot;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;这时运行 &lt;code&gt;ss-local&lt;/code&gt; 命令，你就可以在的前台看到节点连接情况。但当你关闭 SSH 会话时，这个进程也会停止，因此需要把它设为服务运行。&lt;/p&gt;
@@ -33,21 +33,21 @@ $ sudo apt-get install shadowsocks-libev
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;文件内容如下（格式参考了 &lt;code&gt;/lib/systemd/system/shadowsocks-libev.service&lt;/code&gt;）：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;[Unit]&lt;/span&gt;
-&lt;span class="na"&gt;Description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Shadowsocks-libev Default Client Service&lt;/span&gt;
-&lt;span class="na"&gt;Documentation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;man:ss-local&lt;/span&gt;
-&lt;span class="na"&gt;After&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;network.target&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;[Unit]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Shadowsocks-libev Default Client Service&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Documentation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;man:ss-local&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;After&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;network.target&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="k"&gt;[Service]&lt;/span&gt;
-&lt;span class="na"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;simple&lt;/span&gt;
-&lt;span class="na"&gt;EnvironmentFile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/etc/default/shadowsocks-libev&lt;/span&gt;
-&lt;span class="na"&gt;User&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nobody&lt;/span&gt;
-&lt;span class="na"&gt;Group&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nogroup&lt;/span&gt;
-&lt;span class="na"&gt;LimitNOFILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;32768&lt;/span&gt;
-&lt;span class="na"&gt;ExecStart&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/usr/bin/ss-local -c /etc/shadowsocks-libev/config.json&lt;/span&gt;
+&lt;span class="k"&gt;[Service]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;simple&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;EnvironmentFile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/etc/default/shadowsocks-libev&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;User&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nobody&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Group&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nogroup&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;LimitNOFILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;32768&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;ExecStart&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/usr/bin/ss-local -c /etc/shadowsocks-libev/config.json&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="k"&gt;[Install]&lt;/span&gt;
-&lt;span class="na"&gt;WantedBy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;multi-user.target&lt;/span&gt;
+&lt;span class="k"&gt;[Install]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;WantedBy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;multi-user.target&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;启用 &lt;code&gt;ss-local.service&lt;/code&gt;：&lt;/p&gt;
@@ -70,8 +70,8 @@ $ sudo systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; ss-local.service &lt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;在文件底部添加：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号&lt;/span&gt;
-&lt;span class="err"&gt;listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号
+listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;code&gt;privoxy.service&lt;/code&gt; 服务在安装时已经启用，可以通过 &lt;code&gt;systemctl status privoxy.service&lt;/code&gt; 来确认，现在重启该服务：&lt;/p&gt;
@@ -109,13 +109,13 @@ $ sudo systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; ss-local.service &lt
 &lt;p&gt;Wi-Fi 默认状态也是关闭的，幸运的是我找到了这个&lt;a href="https://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address/37921#37921"&gt;帖子&lt;/a&gt;，里面介绍了在烧录系统后直接配置 Wi-Fi 的方法。&lt;/p&gt;
 &lt;p&gt;Raspbian 在启动时会检查 &lt;code&gt;/boot&lt;/code&gt; 目录下的 &lt;code&gt;wpa_supplicant.conf&lt;/code&gt; 文件并把它移动到 &lt;code&gt;/etc/wpa_supplicant/wpa_supplicant.conf&lt;/code&gt; （如果文件已存在则会被覆盖），可以在这里进行 Wi-Fi 连接的参数配置。&lt;/p&gt;
 &lt;p&gt;在 Raspbian 根目录下新建 &lt;code&gt;wpa_supplicant.conf&lt;/code&gt; 文件并添加进下面几行：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;ctrl_interface&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;DIR&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wpa_supplicant&lt;/span&gt; &lt;span class="k"&gt;GROUP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;netdev&lt;/span&gt;
-&lt;span class="n"&gt;update_config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;ctrl_interface&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;DIR&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wpa_supplicant&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;GROUP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;netdev&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;update_config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;
-    &lt;span class="n"&gt;ssid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;SSID&amp;quot;&lt;/span&gt;
-    &lt;span class="n"&gt;psk&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;PASSWORD&amp;quot;&lt;/span&gt;
-&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;ssid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SSID&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;psk&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PASSWORD&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;然后，替换 &lt;code&gt;SSID&lt;/code&gt; 和 &lt;code&gt;PASSWORD&lt;/code&gt; 为你希望连接的 Wi-Fi 名称和密码。&lt;/p&gt;

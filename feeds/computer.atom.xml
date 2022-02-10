@@ -94,42 +94,42 @@
 
 &lt;p&gt;二进制共 54 位，规约后省略首位，仍有 53 位&lt;/p&gt;
 &lt;h4 id="231-99999999999999990"&gt;2.3.1 &lt;code&gt;9999999999999999.0&lt;/code&gt;:&lt;a class="headerlink" href="#231-99999999999999990" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;1. 9999999999999999 用二进制表示为：&lt;/span&gt;
-&lt;span class="err"&gt;              100011100001101111001001101111110000001111111111111111&lt;/span&gt;
-&lt;span class="err"&gt;              └─────────────────────────┬──────────────────────────┘&lt;/span&gt;
-&lt;span class="err"&gt;                                     54 bit&lt;/span&gt;
-&lt;span class="err"&gt;2. 9999999999999999.0 科学表示法表示为：&lt;/span&gt;
-&lt;span class="err"&gt;      2^53 × 1.00011100001101111001001101111110000001111111111111111&lt;/span&gt;
-&lt;span class="err"&gt;               └───────────────────────┬──────────────────────────┘│&lt;/span&gt;
-&lt;span class="err"&gt;                                    52 bit             超出 1 bit，舍去最后一位 1 并进一位&lt;/span&gt;
-&lt;span class="err"&gt;3. 9999999999999999.0 用双精度浮点数表示为：&lt;/span&gt;
-&lt;span class="err"&gt;   0100001101000001110000110111100100110111111000001000000000000000&lt;/span&gt;
-&lt;span class="err"&gt;   │└────┬────┘└────────────────────────┬─────────────────────────┘&lt;/span&gt;
-&lt;span class="err"&gt;   sign exp                          52 bit&lt;/span&gt;
-&lt;span class="err"&gt;   等于 10000000000000000，即 1e+16&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999999&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;用二进制表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="mf"&gt;100011100001101111001001101111110000001111111111111111&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="err"&gt;└─────────────────────────┬──────────────────────────┘&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                                     &lt;/span&gt;&lt;span class="mf"&gt;54&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="mf"&gt;2.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999999.0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;科学表示法表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="mf"&gt;2&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="mf"&gt;53&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;×&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1.00011100001101111001001101111110000001111111111111111&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="err"&gt;└───────────────────────┬──────────────────────────┘│&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                                    &lt;/span&gt;&lt;span class="mf"&gt;52&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="n"&gt;超出&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="err"&gt;，&lt;/span&gt;&lt;span class="n"&gt;舍去最后一位&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;并进一位&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="mf"&gt;3.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999999.0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;用双精度浮点数表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="mf"&gt;0100001101000001110000110111100100110111111000001000000000000000&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="err"&gt;│└────┬────┘└────────────────────────┬─────────────────────────┘&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;sign&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;exp&lt;/span&gt;&lt;span class="w"&gt;                          &lt;/span&gt;&lt;span class="mf"&gt;52&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;等于&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;10000000000000000&lt;/span&gt;&lt;span class="err"&gt;，&lt;/span&gt;&lt;span class="n"&gt;即&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mf"&gt;16&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4 id="232-99999999999999980"&gt;2.3.2 &lt;code&gt;9999999999999998.0&lt;/code&gt;:&lt;a class="headerlink" href="#232-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;1. 9999999999999998 用二进制表示为：&lt;/span&gt;
-&lt;span class="err"&gt;              100011100001101111001001101111110000001111111111111110&lt;/span&gt;
-&lt;span class="err"&gt;              └─────────────────────────┬──────────────────────────┘&lt;/span&gt;
-&lt;span class="err"&gt;                                     54 bit&lt;/span&gt;
-&lt;span class="err"&gt;2. 9999999999999998.0 科学表示法表示为：&lt;/span&gt;
-&lt;span class="err"&gt;      2^53 × 1.00011100001101111001001101111110000001111111111111110&lt;/span&gt;
-&lt;span class="err"&gt;               └───────────────────────┬──────────────────────────┘│&lt;/span&gt;
-&lt;span class="err"&gt;                                    52 bit              超出 1 bit 舍入：舍去最后一位 0&lt;/span&gt;
-&lt;span class="err"&gt;3. 9999999999999998.0 用双精度浮点数表示为：&lt;/span&gt;
-&lt;span class="err"&gt;   0100001101000001110000110111100100110111111000000111111111111111&lt;/span&gt;
-&lt;span class="err"&gt;   │└────┬────┘└────────────────────────┬─────────────────────────┘&lt;/span&gt;
-&lt;span class="err"&gt;   sign exp                          52 bit&lt;/span&gt;
-&lt;span class="err"&gt;   等于 9999999999999998，即 9.999999999999998e+15&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999998&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;用二进制表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="mf"&gt;100011100001101111001001101111110000001111111111111110&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="err"&gt;└─────────────────────────┬──────────────────────────┘&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                                     &lt;/span&gt;&lt;span class="mf"&gt;54&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="mf"&gt;2.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999998.0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;科学表示法表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="mf"&gt;2&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="mf"&gt;53&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;×&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1.00011100001101111001001101111110000001111111111111110&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="err"&gt;└───────────────────────┬──────────────────────────┘│&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                                    &lt;/span&gt;&lt;span class="mf"&gt;52&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;超出&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;舍入&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="n"&gt;舍去最后一位&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="mf"&gt;3.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999998.0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;用双精度浮点数表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="mf"&gt;0100001101000001110000110111100100110111111000000111111111111111&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="err"&gt;│└────┬────┘└────────────────────────┬─────────────────────────┘&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;sign&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;exp&lt;/span&gt;&lt;span class="w"&gt;                          &lt;/span&gt;&lt;span class="mf"&gt;52&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;等于&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999998&lt;/span&gt;&lt;span class="err"&gt;，&lt;/span&gt;&lt;span class="n"&gt;即&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9.999999999999998e+15&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id="24-99999999999999990-99999999999999980"&gt;2.4 双精度浮点数表示 &lt;code&gt;9999999999999999.0 - 9999999999999998.0&lt;/code&gt;&lt;a class="headerlink" href="#24-99999999999999990-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;因此，在双精度浮点数表示下，&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;   9999999999999999.0 - 9999999999999998.0&lt;/span&gt;
-&lt;span class="err"&gt;= 10000000000000000.0 - 9999999999999998.0&lt;/span&gt;
-&lt;span class="err"&gt;= 2.0&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;   9999999999999999.0 - 9999999999999998.0
+= 10000000000000000.0 - 9999999999999998.0
+= 2.0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;也就可以理解了。&lt;/p&gt;

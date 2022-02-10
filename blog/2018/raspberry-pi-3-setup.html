@@ -99,13 +99,13 @@
 <p>Wi-Fi 默认状态也是关闭的，幸运的是我找到了这个<a href="https://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address/37921#37921">帖子</a>，里面介绍了在烧录系统后直接配置 Wi-Fi 的方法。</p>
 <p>Raspbian 在启动时会检查 <code>/boot</code> 目录下的 <code>wpa_supplicant.conf</code> 文件并把它移动到 <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> （如果文件已存在则会被覆盖），可以在这里进行 Wi-Fi 连接的参数配置。</p>
 <p>在 Raspbian 根目录下新建 <code>wpa_supplicant.conf</code> 文件并添加进下面几行：</p>
-<div class="highlight"><pre><span></span><code><span class="n">ctrl_interface</span><span class="o">=</span><span class="n">DIR</span><span class="o">=/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">wpa_supplicant</span> <span class="k">GROUP</span><span class="o">=</span><span class="n">netdev</span>
-<span class="n">update_config</span><span class="o">=</span><span class="mi">1</span>
+<div class="highlight"><pre><span></span><code><span class="n">ctrl_interface</span><span class="o">=</span><span class="n">DIR</span><span class="o">=/</span><span class="k">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">wpa_supplicant</span><span class="w"> </span><span class="n">GROUP</span><span class="o">=</span><span class="n">netdev</span><span class="w"></span>
+<span class="n">update_config</span><span class="o">=</span><span class="mi">1</span><span class="w"></span>
 
-<span class="n">network</span><span class="o">=</span><span class="err">{</span>
-    <span class="n">ssid</span><span class="o">=</span><span class="ss">&quot;SSID&quot;</span>
-    <span class="n">psk</span><span class="o">=</span><span class="ss">&quot;PASSWORD&quot;</span>
-<span class="err">}</span>
+<span class="n">network</span><span class="o">=</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">ssid</span><span class="o">=</span><span class="s2">&quot;SSID&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="n">psk</span><span class="o">=</span><span class="s2">&quot;PASSWORD&quot;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
 
 <p>然后，替换 <code>SSID</code> 和 <code>PASSWORD</code> 为你希望连接的 Wi-Fi 名称和密码。</p>

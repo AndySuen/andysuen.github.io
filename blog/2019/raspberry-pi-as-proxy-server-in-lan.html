@@ -98,14 +98,14 @@ $ sudo apt-get install shadowsocks-libev
 </code></pre></div>
 
 <p>文件格式如下：</p>
-<div class="highlight"><pre><span></span><code><span class="err">{</span>
-<span class="err">    &quot;server&quot;:&quot;REMOTE-SERVER-IP-OR-DOMAIN&quot;,</span>
-<span class="err">    &quot;server_port&quot;:&quot;REMOTE-PORT&quot;,</span>
-<span class="err">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,</span>
-<span class="err">    &quot;local_port&quot;:1080,</span>
-<span class="err">    &quot;password&quot;:&quot;YOUR-PASSWORD&quot;,</span>
-<span class="err">    &quot;method&quot;:&quot;YOUR-METHOD&quot;</span>
-<span class="err">}</span>
+<div class="highlight"><pre><span></span><code>{
+    &quot;server&quot;:&quot;REMOTE-SERVER-IP-OR-DOMAIN&quot;,
+    &quot;server_port&quot;:&quot;REMOTE-PORT&quot;,
+    &quot;local_address&quot;:&quot;127.0.0.1&quot;,
+    &quot;local_port&quot;:1080,
+    &quot;password&quot;:&quot;YOUR-PASSWORD&quot;,
+    &quot;method&quot;:&quot;YOUR-METHOD&quot;
+}
 </code></pre></div>
 
 <p>这时运行 <code>ss-local</code> 命令，你就可以在的前台看到节点连接情况。但当你关闭 SSH 会话时，这个进程也会停止，因此需要把它设为服务运行。</p>
@@ -115,21 +115,21 @@ $ sudo apt-get install shadowsocks-libev
 </code></pre></div>
 
 <p>文件内容如下（格式参考了 <code>/lib/systemd/system/shadowsocks-libev.service</code>）：</p>
-<div class="highlight"><pre><span></span><code><span class="k">[Unit]</span>
-<span class="na">Description</span><span class="o">=</span><span class="s">Shadowsocks-libev Default Client Service</span>
-<span class="na">Documentation</span><span class="o">=</span><span class="s">man:ss-local</span>
-<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+<div class="highlight"><pre><span></span><code><span class="k">[Unit]</span><span class="w"></span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Shadowsocks-libev Default Client Service</span><span class="w"></span>
+<span class="na">Documentation</span><span class="o">=</span><span class="s">man:ss-local</span><span class="w"></span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span><span class="w"></span>
 
-<span class="k">[Service]</span>
-<span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
-<span class="na">EnvironmentFile</span><span class="o">=</span><span class="s">/etc/default/shadowsocks-libev</span>
-<span class="na">User</span><span class="o">=</span><span class="s">nobody</span>
-<span class="na">Group</span><span class="o">=</span><span class="s">nogroup</span>
-<span class="na">LimitNOFILE</span><span class="o">=</span><span class="s">32768</span>
-<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/ss-local -c /etc/shadowsocks-libev/config.json</span>
+<span class="k">[Service]</span><span class="w"></span>
+<span class="na">Type</span><span class="o">=</span><span class="s">simple</span><span class="w"></span>
+<span class="na">EnvironmentFile</span><span class="o">=</span><span class="s">/etc/default/shadowsocks-libev</span><span class="w"></span>
+<span class="na">User</span><span class="o">=</span><span class="s">nobody</span><span class="w"></span>
+<span class="na">Group</span><span class="o">=</span><span class="s">nogroup</span><span class="w"></span>
+<span class="na">LimitNOFILE</span><span class="o">=</span><span class="s">32768</span><span class="w"></span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/bin/ss-local -c /etc/shadowsocks-libev/config.json</span><span class="w"></span>
 
-<span class="k">[Install]</span>
-<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+<span class="k">[Install]</span><span class="w"></span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span><span class="w"></span>
 </code></pre></div>
 
 <p>启用 <code>ss-local.service</code>：</p>
@@ -152,8 +152,8 @@ $ sudo systemctl <span class="nb">enable</span> ss-local.service <span class="c1
 </code></pre></div>
 
 <p>在文件底部添加：</p>
-<div class="highlight"><pre><span></span><code><span class="err">forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号</span>
-<span class="err">listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口</span>
+<div class="highlight"><pre><span></span><code>forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号
+listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 </code></pre></div>
 
 <p><code>privoxy.service</code> 服务在安装时已经启用，可以通过 <code>systemctl status privoxy.service</code> 来确认，现在重启该服务：</p>

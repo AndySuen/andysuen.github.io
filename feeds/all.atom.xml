@@ -1,5 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Andy's blog</title><link href="https://bingfei.me/" rel="alternate"></link><link href="https://bingfei.me/feeds/all.atom.xml" rel="self"></link><id>https://bingfei.me/</id><updated>2020-09-30T10:00:00+08:00</updated><entry><title>Redis 八股文</title><link href="https://bingfei.me/blog/2020/redis-eight-legged-essay" rel="alternate"></link><published>2020-09-30T10:00:00+08:00</published><updated>2020-09-30T10:00:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2020-09-30:/blog/2020/redis-eight-legged-essay</id><summary type="html">&lt;p&gt;简单总结 Redis 的应用，数据结构的底层实现方式，过期删除/淘汰策略，持久化，哨兵和集群的核心原理。&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Andy's blog</title><link href="https://bingfei.me/" rel="alternate"></link><link href="https://bingfei.me/feeds/all.atom.xml" rel="self"></link><id>https://bingfei.me/</id><updated>2022-01-10T10:00:00+08:00</updated><entry><title>2021 读书记录</title><link href="https://bingfei.me/blog/2022/2021-books" rel="alternate"></link><published>2022-01-10T10:00:00+08:00</published><updated>2022-01-10T10:00:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2022-01-10:/blog/2022/2021-books</id><summary type="html">&lt;p&gt;2021年读了约37本书，在读的有五六本。有些书是重读，有些书给了我很大的收获&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;读书清单&lt;a class="headerlink" href="#_1" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;2021年读了约37本书，在读的有五六本（技术类书籍）（未列出）&lt;br&gt;
+有些书是重读，比如《如何阅读一本书》、《月亮与六便士》、《1984》、《沙丘》等&lt;br&gt;
+有些书给了我很大的收获，用加粗字体表示&lt;br&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="4"&gt;4月&lt;a class="headerlink" href="#4" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;《史蒂夫·乔布斯传》 (2021-04-28)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="5"&gt;5月&lt;a class="headerlink" href="#5" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;《黑客与画家》 (2021-05-03)&lt;/li&gt;
+&lt;li&gt;《思考快与慢》 (2021-05-20)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="7"&gt;7月&lt;a class="headerlink" href="#7" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;《&lt;strong&gt;你当像鸟飞往你的山&lt;/strong&gt;》 (2021-07-03)&lt;/li&gt;
+&lt;li&gt;《&lt;strong&gt;被讨厌的勇气&lt;/strong&gt;》 (2021-07-08)&lt;/li&gt;
+&lt;li&gt;《自卑与超越》 (2021-07-14)&lt;/li&gt;
+&lt;li&gt;《啤博士的啤酒札记》 (2021-07-22)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="8"&gt;8月&lt;a class="headerlink" href="#8" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;《&lt;strong&gt;如何阅读一本书&lt;/strong&gt;》 (2021-08-03)&lt;/li&gt;
+&lt;li&gt;《非暴力沟通》 (2021-08-20)&lt;/li&gt;
+&lt;li&gt;《月亮与六便士》 (2021-08-20)&lt;/li&gt;
+&lt;li&gt;《富爸爸，穷爸爸》 (2021-08-24)&lt;/li&gt;
+&lt;li&gt;《The Little Go Book》 (2021-08-25)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="9"&gt;9月&lt;a class="headerlink" href="#9" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;《人类简史》 (2021-09-04)&lt;/li&gt;
+&lt;li&gt;《未来简史》 (2021-09-09)&lt;/li&gt;
+&lt;li&gt;《今日简史》 (2021-09-12)&lt;/li&gt;
+&lt;li&gt;《我们这一代》 (2021-09-15)&lt;/li&gt;
+&lt;li&gt;《观看之道》 (2021-09-17)&lt;/li&gt;
+&lt;li&gt;《&lt;strong&gt;美丽新世界&lt;/strong&gt;》 (2021-09-18)&lt;/li&gt;
+&lt;li&gt;《重返美丽新世界》 (2021-09-19)&lt;/li&gt;
+&lt;li&gt;《我们》 (2021-09-25)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="10"&gt;10月&lt;a class="headerlink" href="#10" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;《1984》 (2021-10-01)&lt;/li&gt;
+&lt;li&gt;《&lt;strong&gt;沙丘&lt;/strong&gt;》 (2021-10-10)&lt;/li&gt;
+&lt;li&gt;《沙丘救世主》 (2021-10-14)&lt;/li&gt;
+&lt;li&gt;《沙丘之子》 (2021-10-19)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="11"&gt;11月&lt;a class="headerlink" href="#11" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;《原则》 (2021-11-03)&lt;/li&gt;
+&lt;li&gt;《穷查理宝典》 (2021-11-08)&lt;/li&gt;
+&lt;li&gt;《自私的基因》 (2021-11-19)&lt;/li&gt;
+&lt;li&gt;《炎拳》 *8 (2021-11-25)&lt;/li&gt;
+&lt;li&gt;《大教堂与集市》 (2021-11-27)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="12"&gt;12月&lt;a class="headerlink" href="#12" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;《&lt;strong&gt;人类的群星闪耀时&lt;/strong&gt;》 (2021-12-06)&lt;/li&gt;
+&lt;li&gt;《别闹了，费曼先生》 (2021-12-11)&lt;/li&gt;
+&lt;li&gt;《忽悠的原理与技巧》 (2021-12-16)&lt;/li&gt;
+&lt;li&gt;《万历十五年》 (2021-12-21)&lt;/li&gt;
+&lt;li&gt;《童年的消逝》 (2021-12-21)&lt;/li&gt;
+&lt;li&gt;《娱乐至死》 (2021-12-24)&lt;/li&gt;
+&lt;li&gt;《技术垄断》 (2021-12-29)&lt;/li&gt;
+&lt;li&gt;《理解一张照片：约翰·伯格论摄影》 (2021-12-31)&lt;/li&gt;
+&lt;/ul&gt;</content><category term="books"></category><category term="books"></category></entry><entry><title>Redis 八股文</title><link href="https://bingfei.me/blog/2020/redis-eight-legged-essay" rel="alternate"></link><published>2020-09-30T10:00:00+08:00</published><updated>2020-09-30T10:00:00+08:00</updated><author><name>Andy</name></author><id>tag:bingfei.me,2020-09-30:/blog/2020/redis-eight-legged-essay</id><summary type="html">&lt;p&gt;简单总结 Redis 的应用，数据结构的底层实现方式，过期删除/淘汰策略，持久化，哨兵和集群的核心原理。&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="#0-what-is-redis"&gt;0. What is Redis&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#1"&gt;1. 问题列表&lt;/a&gt;&lt;/li&gt;
@@ -395,14 +461,14 @@ $ sudo apt-get install shadowsocks-libev
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;文件格式如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;{&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;server&amp;quot;:&amp;quot;REMOTE-SERVER-IP-OR-DOMAIN&amp;quot;,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;server_port&amp;quot;:&amp;quot;REMOTE-PORT&amp;quot;,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;local_address&amp;quot;:&amp;quot;127.0.0.1&amp;quot;,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;local_port&amp;quot;:1080,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;password&amp;quot;:&amp;quot;YOUR-PASSWORD&amp;quot;,&lt;/span&gt;
-&lt;span class="err"&gt;    &amp;quot;method&amp;quot;:&amp;quot;YOUR-METHOD&amp;quot;&lt;/span&gt;
-&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;{
+    &amp;quot;server&amp;quot;:&amp;quot;REMOTE-SERVER-IP-OR-DOMAIN&amp;quot;,
+    &amp;quot;server_port&amp;quot;:&amp;quot;REMOTE-PORT&amp;quot;,
+    &amp;quot;local_address&amp;quot;:&amp;quot;127.0.0.1&amp;quot;,
+    &amp;quot;local_port&amp;quot;:1080,
+    &amp;quot;password&amp;quot;:&amp;quot;YOUR-PASSWORD&amp;quot;,
+    &amp;quot;method&amp;quot;:&amp;quot;YOUR-METHOD&amp;quot;
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;这时运行 &lt;code&gt;ss-local&lt;/code&gt; 命令，你就可以在的前台看到节点连接情况。但当你关闭 SSH 会话时，这个进程也会停止，因此需要把它设为服务运行。&lt;/p&gt;
@@ -412,21 +478,21 @@ $ sudo apt-get install shadowsocks-libev
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;文件内容如下（格式参考了 &lt;code&gt;/lib/systemd/system/shadowsocks-libev.service&lt;/code&gt;）：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;[Unit]&lt;/span&gt;
-&lt;span class="na"&gt;Description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Shadowsocks-libev Default Client Service&lt;/span&gt;
-&lt;span class="na"&gt;Documentation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;man:ss-local&lt;/span&gt;
-&lt;span class="na"&gt;After&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;network.target&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;[Unit]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;Shadowsocks-libev Default Client Service&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Documentation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;man:ss-local&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;After&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;network.target&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="k"&gt;[Service]&lt;/span&gt;
-&lt;span class="na"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;simple&lt;/span&gt;
-&lt;span class="na"&gt;EnvironmentFile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/etc/default/shadowsocks-libev&lt;/span&gt;
-&lt;span class="na"&gt;User&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nobody&lt;/span&gt;
-&lt;span class="na"&gt;Group&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nogroup&lt;/span&gt;
-&lt;span class="na"&gt;LimitNOFILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;32768&lt;/span&gt;
-&lt;span class="na"&gt;ExecStart&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/usr/bin/ss-local -c /etc/shadowsocks-libev/config.json&lt;/span&gt;
+&lt;span class="k"&gt;[Service]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;simple&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;EnvironmentFile&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/etc/default/shadowsocks-libev&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;User&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nobody&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Group&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;nogroup&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;LimitNOFILE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;32768&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;ExecStart&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;/usr/bin/ss-local -c /etc/shadowsocks-libev/config.json&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="k"&gt;[Install]&lt;/span&gt;
-&lt;span class="na"&gt;WantedBy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;multi-user.target&lt;/span&gt;
+&lt;span class="k"&gt;[Install]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;WantedBy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;multi-user.target&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;启用 &lt;code&gt;ss-local.service&lt;/code&gt;：&lt;/p&gt;
@@ -449,8 +515,8 @@ $ sudo systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; ss-local.service &lt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;在文件底部添加：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号&lt;/span&gt;
-&lt;span class="err"&gt;listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;forward-socks5 / 127.0.0.1:1080 . # 转发目的地址，注意末尾有一个空格和点号
+listen-address  0.0.0.0:8010      # 监听局域网本机地址和端口
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;code&gt;privoxy.service&lt;/code&gt; 服务在安装时已经启用，可以通过 &lt;code&gt;systemctl status privoxy.service&lt;/code&gt; 来确认，现在重启该服务：&lt;/p&gt;
@@ -565,42 +631,42 @@ $ sudo systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; ss-local.service &lt
 
 &lt;p&gt;二进制共 54 位，规约后省略首位，仍有 53 位&lt;/p&gt;
 &lt;h4 id="231-99999999999999990"&gt;2.3.1 &lt;code&gt;9999999999999999.0&lt;/code&gt;:&lt;a class="headerlink" href="#231-99999999999999990" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;1. 9999999999999999 用二进制表示为：&lt;/span&gt;
-&lt;span class="err"&gt;              100011100001101111001001101111110000001111111111111111&lt;/span&gt;
-&lt;span class="err"&gt;              └─────────────────────────┬──────────────────────────┘&lt;/span&gt;
-&lt;span class="err"&gt;                                     54 bit&lt;/span&gt;
-&lt;span class="err"&gt;2. 9999999999999999.0 科学表示法表示为：&lt;/span&gt;
-&lt;span class="err"&gt;      2^53 × 1.00011100001101111001001101111110000001111111111111111&lt;/span&gt;
-&lt;span class="err"&gt;               └───────────────────────┬──────────────────────────┘│&lt;/span&gt;
-&lt;span class="err"&gt;                                    52 bit             超出 1 bit，舍去最后一位 1 并进一位&lt;/span&gt;
-&lt;span class="err"&gt;3. 9999999999999999.0 用双精度浮点数表示为：&lt;/span&gt;
-&lt;span class="err"&gt;   0100001101000001110000110111100100110111111000001000000000000000&lt;/span&gt;
-&lt;span class="err"&gt;   │└────┬────┘└────────────────────────┬─────────────────────────┘&lt;/span&gt;
-&lt;span class="err"&gt;   sign exp                          52 bit&lt;/span&gt;
-&lt;span class="err"&gt;   等于 10000000000000000，即 1e+16&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999999&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;用二进制表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="mf"&gt;100011100001101111001001101111110000001111111111111111&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="err"&gt;└─────────────────────────┬──────────────────────────┘&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                                     &lt;/span&gt;&lt;span class="mf"&gt;54&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="mf"&gt;2.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999999.0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;科学表示法表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="mf"&gt;2&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="mf"&gt;53&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;×&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1.00011100001101111001001101111110000001111111111111111&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="err"&gt;└───────────────────────┬──────────────────────────┘│&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                                    &lt;/span&gt;&lt;span class="mf"&gt;52&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="n"&gt;超出&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="err"&gt;，&lt;/span&gt;&lt;span class="n"&gt;舍去最后一位&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;并进一位&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="mf"&gt;3.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999999.0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;用双精度浮点数表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="mf"&gt;0100001101000001110000110111100100110111111000001000000000000000&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="err"&gt;│└────┬────┘└────────────────────────┬─────────────────────────┘&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;sign&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;exp&lt;/span&gt;&lt;span class="w"&gt;                          &lt;/span&gt;&lt;span class="mf"&gt;52&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;等于&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;10000000000000000&lt;/span&gt;&lt;span class="err"&gt;，&lt;/span&gt;&lt;span class="n"&gt;即&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mf"&gt;16&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4 id="232-99999999999999980"&gt;2.3.2 &lt;code&gt;9999999999999998.0&lt;/code&gt;:&lt;a class="headerlink" href="#232-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;1. 9999999999999998 用二进制表示为：&lt;/span&gt;
-&lt;span class="err"&gt;              100011100001101111001001101111110000001111111111111110&lt;/span&gt;
-&lt;span class="err"&gt;              └─────────────────────────┬──────────────────────────┘&lt;/span&gt;
-&lt;span class="err"&gt;                                     54 bit&lt;/span&gt;
-&lt;span class="err"&gt;2. 9999999999999998.0 科学表示法表示为：&lt;/span&gt;
-&lt;span class="err"&gt;      2^53 × 1.00011100001101111001001101111110000001111111111111110&lt;/span&gt;
-&lt;span class="err"&gt;               └───────────────────────┬──────────────────────────┘│&lt;/span&gt;
-&lt;span class="err"&gt;                                    52 bit              超出 1 bit 舍入：舍去最后一位 0&lt;/span&gt;
-&lt;span class="err"&gt;3. 9999999999999998.0 用双精度浮点数表示为：&lt;/span&gt;
-&lt;span class="err"&gt;   0100001101000001110000110111100100110111111000000111111111111111&lt;/span&gt;
-&lt;span class="err"&gt;   │└────┬────┘└────────────────────────┬─────────────────────────┘&lt;/span&gt;
-&lt;span class="err"&gt;   sign exp                          52 bit&lt;/span&gt;
-&lt;span class="err"&gt;   等于 9999999999999998，即 9.999999999999998e+15&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999998&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;用二进制表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="mf"&gt;100011100001101111001001101111110000001111111111111110&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="err"&gt;└─────────────────────────┬──────────────────────────┘&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                                     &lt;/span&gt;&lt;span class="mf"&gt;54&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="mf"&gt;2.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999998.0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;科学表示法表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="mf"&gt;2&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="mf"&gt;53&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;×&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1.00011100001101111001001101111110000001111111111111110&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="err"&gt;└───────────────────────┬──────────────────────────┘│&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                                    &lt;/span&gt;&lt;span class="mf"&gt;52&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;超出&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;舍入&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="n"&gt;舍去最后一位&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="mf"&gt;3.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999998.0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;用双精度浮点数表示为&lt;/span&gt;&lt;span class="err"&gt;：&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="mf"&gt;0100001101000001110000110111100100110111111000000111111111111111&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="err"&gt;│└────┬────┘└────────────────────────┬─────────────────────────┘&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;sign&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;exp&lt;/span&gt;&lt;span class="w"&gt;                          &lt;/span&gt;&lt;span class="mf"&gt;52&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bit&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;等于&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9999999999999998&lt;/span&gt;&lt;span class="err"&gt;，&lt;/span&gt;&lt;span class="n"&gt;即&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;9.999999999999998e+15&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id="24-99999999999999990-99999999999999980"&gt;2.4 双精度浮点数表示 &lt;code&gt;9999999999999999.0 - 9999999999999998.0&lt;/code&gt;&lt;a class="headerlink" href="#24-99999999999999990-99999999999999980" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;因此，在双精度浮点数表示下，&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;   9999999999999999.0 - 9999999999999998.0&lt;/span&gt;
-&lt;span class="err"&gt;= 10000000000000000.0 - 9999999999999998.0&lt;/span&gt;
-&lt;span class="err"&gt;= 2.0&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;   9999999999999999.0 - 9999999999999998.0
+= 10000000000000000.0 - 9999999999999998.0
+= 2.0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;也就可以理解了。&lt;/p&gt;
@@ -651,13 +717,13 @@ $ sudo systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; ss-local.service &lt
 &lt;p&gt;Wi-Fi 默认状态也是关闭的，幸运的是我找到了这个&lt;a href="https://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address/37921#37921"&gt;帖子&lt;/a&gt;，里面介绍了在烧录系统后直接配置 Wi-Fi 的方法。&lt;/p&gt;
 &lt;p&gt;Raspbian 在启动时会检查 &lt;code&gt;/boot&lt;/code&gt; 目录下的 &lt;code&gt;wpa_supplicant.conf&lt;/code&gt; 文件并把它移动到 &lt;code&gt;/etc/wpa_supplicant/wpa_supplicant.conf&lt;/code&gt; （如果文件已存在则会被覆盖），可以在这里进行 Wi-Fi 连接的参数配置。&lt;/p&gt;
 &lt;p&gt;在 Raspbian 根目录下新建 &lt;code&gt;wpa_supplicant.conf&lt;/code&gt; 文件并添加进下面几行：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;ctrl_interface&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;DIR&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wpa_supplicant&lt;/span&gt; &lt;span class="k"&gt;GROUP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;netdev&lt;/span&gt;
-&lt;span class="n"&gt;update_config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;ctrl_interface&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;DIR&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;wpa_supplicant&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;GROUP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;netdev&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;update_config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;
-    &lt;span class="n"&gt;ssid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;SSID&amp;quot;&lt;/span&gt;
-    &lt;span class="n"&gt;psk&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;PASSWORD&amp;quot;&lt;/span&gt;
-&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;ssid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SSID&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;psk&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PASSWORD&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;然后，替换 &lt;code&gt;SSID&lt;/code&gt; 和 &lt;code&gt;PASSWORD&lt;/code&gt; 为你希望连接的 Wi-Fi 名称和密码。&lt;/p&gt;
